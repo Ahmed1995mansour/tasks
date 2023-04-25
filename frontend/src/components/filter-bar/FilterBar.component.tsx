@@ -1,12 +1,14 @@
 import { format } from 'date-fns';
 import { useState } from 'react';
-import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import Select from 'react-select';
+import DatePiker from '../date-picker/DatePiker.component';
+import FilterHeading from '../filter-heading/FilterHeading.component';
 import './filter-bar.styles.css';
 
 const FilterBar = () => {
-  const [selected, setSelected] = useState<Date>();
+  const date = new Date();
+  const [selected, setSelected] = useState<Date>(date);
   const [selectedOption, setSelectedOption] = useState(null);
 
   const options = [
@@ -15,7 +17,7 @@ const FilterBar = () => {
       label: 'All',
     },
     {
-      Value: 'Done',
+      value: 'Done',
       label: 'Done',
     },
     {
@@ -29,16 +31,28 @@ const FilterBar = () => {
     footer = <p>You picked {format(selected, 'PP')}.</p>;
   }
 
-  const onselectChange = (event: any) => {
-    setSelectedOption(event.value);
+  const onselectChange = (option: any) => {
+    setSelectedOption(option.value);
+  };
+
+  const onSelectDate = (date: any) => {
+    setSelected(date);
   };
   return (
     <div className=" container filter-bar d-flex justify-content-around">
       <div className="select">
-        <Select defaultValue={selectedOption} onChange={onselectChange} options={options} />
+        <Select
+          defaultValue={selectedOption}
+          onChange={onselectChange}
+          options={options}
+          placeholder="Select Category"
+        />
+      </div>
+      <div className="filter-heading">
+        <FilterHeading taskCategory={selectedOption ? selectedOption : 'All'} date={selected} />
       </div>
       <div className="date-picker">
-        <DayPicker mode="single" selected={selected} onSelect={setSelected} footer={footer} />
+        <DatePiker handleSelectDate={onSelectDate} />
       </div>
     </div>
   );
