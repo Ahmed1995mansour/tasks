@@ -25,7 +25,12 @@ function AddTaskModal() {
               <Form.Control type="text" placeholder="Title" autoFocus />
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Control type="text" placeholder="name@example.com" autoFocus />
+              <Form.Select>
+                <option>Choose Category</option>
+                <option>Value 1</option>
+                <option>Value 2</option>
+                <option>Value 3</option>
+              </Form.Select>
             </Form.Group>
           </Form>
         </Modal.Body>
