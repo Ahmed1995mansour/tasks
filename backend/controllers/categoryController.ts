@@ -8,7 +8,7 @@ import Category from '../models/categoryModel';
 const addCategory = asyncHandler(async (req, res) => {
   const { title } = req.body;
   if (!title) {
-    res.status(400).send('All fields are required');
+    res.status(400).send('All fields are required!!');
   } else {
     const category = new Category({
       title,
