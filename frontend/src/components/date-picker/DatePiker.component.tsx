@@ -3,6 +3,7 @@ import FocusTrap from 'focus-trap-react';
 import React, { ChangeEventHandler, useRef, useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import { usePopper } from 'react-popper';
+import './date-piker.styles.css';
 
 export default function DatePiker({ handleSelectDate }: any) {
   const [selected, setSelected] = useState<Date>();

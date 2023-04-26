@@ -6,6 +6,7 @@ import Category from '../models/categoryModel';
 // @access Public
 
 const addCategory = asyncHandler(async (req, res) => {
+  console.log(req.body);
   const { title } = req.body;
   if (!title) {
     res.status(400).send('All fields are required!!');
@@ -19,4 +20,17 @@ const addCategory = asyncHandler(async (req, res) => {
   }
 });
 
-export { addCategory };
+// @desc   Fetch all categories
+// @route  GET
+// @access Public
+
+const getCategories = asyncHandler(async (req, res) => {
+  const categories = await Category.find({});
+
+  if (!categories) {
+    res.status(404).send('There are no categories');
+  }
+  res.status(200).json(categories);
+});
+
+export { addCategory, getCategories };

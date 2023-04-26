@@ -1,8 +1,8 @@
 import './add-button.styles.css';
 
-const AddButton = ({ onClickHandler }: any) => {
+const AddButton = ({ onClickHandler, className }: any) => {
   return (
-    <>
+    <div className={className}>
       <div id="container-floating" onClick={onClickHandler}>
         <div id="floating-button">
           <p className="plus">+</p>
@@ -12,7 +12,7 @@ const AddButton = ({ onClickHandler }: any) => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

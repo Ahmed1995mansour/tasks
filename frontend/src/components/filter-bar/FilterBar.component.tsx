@@ -6,7 +6,10 @@ import DatePiker from '../date-picker/DatePiker.component';
 import FilterHeading from '../filter-heading/FilterHeading.component';
 import './filter-bar.styles.css';
 
-const FilterBar = () => {
+type props = {
+  selectDateFilter: Function;
+};
+const FilterBar: React.FC<props> = ({ selectDateFilter }) => {
   const date = new Date();
   const [selected, setSelected] = useState<Date>(date);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -36,10 +39,17 @@ const FilterBar = () => {
   };
 
   const onSelectDate = (date: any) => {
-    setSelected(date);
+    selectDateFilter(date);
   };
   return (
     <div className=" container filter-bar d-flex justify-content-around">
+      <div className="date-picker">
+        <DatePiker handleSelectDate={onSelectDate} />
+      </div>
+
+      <div className="filter-heading">
+        <FilterHeading taskCategory={selectedOption ? selectedOption : 'All'} date={selected} />
+      </div>
       <div className="select">
         <Select
           defaultValue={selectedOption}
@@ -47,12 +57,6 @@ const FilterBar = () => {
           options={options}
           placeholder="Select Category"
         />
-      </div>
-      <div className="filter-heading">
-        <FilterHeading taskCategory={selectedOption ? selectedOption : 'All'} date={selected} />
-      </div>
-      <div className="date-picker">
-        <DatePiker handleSelectDate={onSelectDate} />
       </div>
     </div>
   );

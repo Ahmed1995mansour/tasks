@@ -7,17 +7,64 @@ import Task from '../models/taskModel';
 
 const addTask = asyncHandler(async (req, res) => {
   const { title, category, date } = req.body;
+  const convertedDate = new Date(date);
+
   if (!title && !category && !date) {
     res.status(400).send('All fields are required!');
   } else {
     const task = new Task({
       category,
       title,
-      date: new Date(date),
+      date: convertedDate,
     });
     const addedTask = await task.save();
     res.status(201).send(addedTask);
   }
 });
 
-export { addTask };
+// @desc   Fetch tasks of certain date
+// @route  GET /api/tasks
+// @access Public
+
+const getTasksbyDate = asyncHandler(async (req, res) => {
+  const date = new Date(req.params.date);
+
+  const tasks = await Task.find({ date });
+
+  if (!tasks) {
+    res.status(404).send('No task found');
+  } else {
+    res.status(200).json(tasks);
+  }
+});
+
+// @desc   Complete task
+// @route  PUT /api/tasks
+// @access Public
+
+const completeTask = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  console.log(req.body);
+  const task = await Task.findByIdAndUpdate(id, { done: req.body.done }, { new: true });
+
+  res.json(task);
+});
+
+// @desc   Get completed tasks percentage
+// @route  GET /api/tasks/percentage
+// @access Public
+
+const getCompletedTasksPercentage = asyncHandler(async (req, res) => {
+  let count = 0;
+  let totalNumber = 0;
+  const tasks = await Task.find({});
+  tasks.forEach((element: any) => {
+    totalNumber++;
+    if (element.done) {
+      count++;
+    }
+  });
+  res.json((count / totalNumber) * 100);
+});
+
+export { addTask, getTasksbyDate, completeTask, getCompletedTasksPercentage };
