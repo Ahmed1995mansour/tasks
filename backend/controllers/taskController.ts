@@ -8,7 +8,7 @@ import Task from '../models/taskModel';
 const addTask = asyncHandler(async (req, res) => {
   const { title, category, date } = req.body;
   if (!title && !category && !date) {
-    res.status(400).send('All fields are required');
+    res.status(400).send('All fields are required!');
   } else {
     const task = new Task({
       category,
