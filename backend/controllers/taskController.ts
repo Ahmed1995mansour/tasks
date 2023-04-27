@@ -29,7 +29,7 @@ const addTask = asyncHandler(async (req, res) => {
 const getTasksbyDate = asyncHandler(async (req, res) => {
   const date = new Date(req.params.date);
 
-  const tasks = await Task.find({ date });
+  const tasks = await Task.find({ date }).populate('category');
 
   if (!tasks) {
     res.status(404).send('No task found');

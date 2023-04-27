@@ -11,7 +11,14 @@
     font-size: 1.2em;
     font-family: arial;
     overflow: hidden;
+    background-color: #ebd6d6;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 5px;
   }
   
+  .titles .task-category-title , .titles .task-title  {
+    text-align: left;
+  }
 
   

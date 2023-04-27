@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import './task.styles.css';
 
 type props = {
-  task: { title: string; done: boolean; _id: string };
+  task: { title: string; done: boolean; _id: string; category: { title: string } };
   getTasksByDate: Function;
   getPercentage: Function;
 };
@@ -22,9 +22,11 @@ const Task: React.FC<props> = ({ task, getTasksByDate, getPercentage }) => {
       const { data } = await axios.put(`http://localhost:5000/api/tasks/${task._id}`, {
         done: event.target.checked,
       });
-      console.log(data);
-      if (data) {
+
+      if (data.done) {
         toast('Task Completed', { type: 'success', theme: 'colored' });
+      } else {
+        toast('Task Marked Uncompleted', { type: 'success', theme: 'light' });
       }
     } catch (error) {
       toast('There was a problem', { type: 'error', theme: 'colored' });
@@ -32,9 +34,13 @@ const Task: React.FC<props> = ({ task, getTasksByDate, getPercentage }) => {
     getTasksByDate();
     getPercentage();
   };
+  console.log(task);
   return (
     <div className="task d-flex justify-content-between">
-      <h3 className="task-text">{task.title}</h3>
+      <div className="titles">
+        <h5 className="task-category-title">{task.category.title}</h5>
+        <h3 className="task-title">{task.title}</h3>
+      </div>
       <input
         type="checkbox"
         className="checkbox"
