@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
+import { getDbUrl } from '../helpers/helpers';
 
 const connectDB = async () => {
-  const DbUrl =
-    process.env.DB_URL ||
-    'mongodb+srv://AhmedDev:Dev122022@atlascluster.kcaj75a.mongodb.net/?retryWrites=true&w=majority';
+  const DbUrl = getDbUrl();
+
   try {
     const conn = await mongoose.connect(DbUrl);
     console.log(`MongoDb connected: ${conn.connection.host}`);

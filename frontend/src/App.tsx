@@ -1,14 +1,17 @@
 import axios from 'axios';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import AddCategoryModal from './components/add-category-modal/AddCategoryModal.component';
 import AddTaskModal from './components/add-task-modal/AddTaskModal.component';
 import FilterBar from './components/filter-bar/FilterBar.component';
+import Header from './components/navbar/Header.component';
 import ProgressBar from './components/progress-bar/ProgressBar.component';
 import TaskList from './components/task-list/TaskList.component';
+import Home from './routes/Home';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -44,6 +47,11 @@ function App() {
   }, [date]);
   return (
     <div className="App">
+      <Routes>
+        <Route path="/" element={<Header />}>
+          <Route index element={<Home />} />
+        </Route>
+      </Routes>
       <h2 className="title">Tasks: Road to Full Stack MERN </h2>
       <ProgressBar completed={completed} />
       <FilterBar selectDateFilter={selectDateFilter} />

@@ -6,6 +6,16 @@ const taskSchema = new mongoose.Schema({
     required: true,
     ref: 'Category',
   },
+  goal: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Goal',
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User',
+  },
   title: {
     type: String,
     required: true,
