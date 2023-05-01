@@ -47,9 +47,9 @@ const FilterBar: React.FC<props> = ({ selectDateFilter }) => {
         <DatePiker handleSelectDate={onSelectDate} />
       </div>
 
-      <div className="filter-heading">
+      {/* <div className="filter-heading">
         <FilterHeading taskCategory={selectedOption ? selectedOption : 'All'} date={selected} />
-      </div>
+      </div> */}
       <div className="select">
         <Select
           defaultValue={selectedOption}
