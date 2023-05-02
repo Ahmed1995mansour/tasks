@@ -5,13 +5,10 @@ import { Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
-import AddCategoryModal from './components/add-category-modal/AddCategoryModal.component';
-import AddTaskModal from './components/add-task-modal/AddTaskModal.component';
-import FilterBar from './components/filter-bar/FilterBar.component';
 import Header from './components/navbar/Header.component';
-import ProgressBar from './components/progress-bar/ProgressBar.component';
-import TaskList from './components/task-list/TaskList.component';
-import Home from './routes/Home';
+import Home from './routes/home-page/Home';
+import Login from './routes/login/Login';
+import Register from './routes/register/Register';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -24,7 +21,7 @@ function App() {
 
   const getTasksByDate = async () => {
     const { data } = await axios.get(`http://localhost:5000/api/tasks/${date}`);
-    console.log(data);
+
     if (data) {
       setTasks(data);
     }
@@ -48,17 +45,26 @@ function App() {
   return (
     <div className="App">
       <Routes>
+        <Route path="/login" element={<Login />} />
+
+        <Route path="/register" element={<Register />} />
         <Route path="/" element={<Header />}>
-          <Route index element={<Home />} />
+          <Route
+            index
+            element={
+              <Home
+                completed={completed}
+                selectDateFilter={selectDateFilter}
+                getTasksByDate={getTasksByDate}
+                tasks={tasks}
+                getPercentage={getPercentage}
+                onAddingTask={onAddingTask}
+              />
+            }
+          />
         </Route>
       </Routes>
-      <h2 className="title">Tasks: Road to Full Stack MERN </h2>
-      <ProgressBar completed={completed} />
-      <FilterBar selectDateFilter={selectDateFilter} />
 
-      <TaskList getTasksByDate={getTasksByDate} tasks={tasks} getPercentage={getPercentage} />
-      <AddTaskModal onAddTask={onAddingTask} />
-      <AddCategoryModal />
       <ToastContainer />
     </div>
   );

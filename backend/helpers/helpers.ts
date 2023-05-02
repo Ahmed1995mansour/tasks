@@ -3,7 +3,7 @@ import crypto from 'crypto';
 export const getDbUrl = (): string => {
   const dBUrl = process.env.DB_URL_DEV; // For curren working DB use process.env.DB_URL
   if (!dBUrl) {
-    throw new Error('Missing database url');
+    console.error('Missing database url');
     process.exit(1);
   }
   return dBUrl;

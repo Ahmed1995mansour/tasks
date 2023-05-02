@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar from 'react-bootstrap/Navbar';
+import { Outlet } from 'react-router-dom';
 import { ReactComponent as Logo } from '../logo-svg/Logo.svg';
 
 const Header = () => {
@@ -38,6 +39,7 @@ const Header = () => {
             </Navbar.Collapse>
           </Container>
         </Navbar>
+        <Outlet />
       </>
     </div>
   );

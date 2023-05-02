@@ -8,7 +8,7 @@ const ProgressBar = ({ completed }: Props) => {
     <>
       <ProgressBarC
         bgColor="#5158bb"
-        height="40px"
+        height="30px"
         width="65%"
         margin="auto"
         completed={completed}
