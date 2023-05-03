@@ -6,10 +6,11 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar from 'react-bootstrap/Navbar';
 import { Outlet } from 'react-router-dom';
 import { ReactComponent as Logo } from '../logo-svg/Logo.svg';
+import './header.styles.scss';
 
 const Header = () => {
   return (
-    <div className="">
+    <div className="header">
       <>
         <Navbar bg="light" expand="lg">
           <Container>
@@ -25,7 +26,9 @@ const Header = () => {
                   className="me-2"
                   aria-label="Search"
                 />
-                <Button variant="outline-primary">Search</Button>
+                <Button className="btn-search" variant="outline-primary">
+                  Search
+                </Button>
               </Form>
               <Nav className="ms-auto my-2 my-lg-0 " style={{ maxHeight: '100px' }} navbarScroll>
                 <Nav.Link href="#action2">Link</Nav.Link>

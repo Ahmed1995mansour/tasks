@@ -10,6 +10,7 @@ import {
   MDBInput,
   MDBRow,
 } from 'mdb-react-ui-kit';
+import { Link } from 'react-router-dom';
 import './register.styles.scss';
 
 const Register = () => {
@@ -54,13 +55,8 @@ const Register = () => {
                   <MDBInput label="Repeat your password" id="form4" type="password" />
                 </div>
 
-                <div className="mb-4">
-                  <MDBCheckbox
-                    name="flexCheck"
-                    value=""
-                    id="flexCheckDefault"
-                    label="Subscribe to our newsletter"
-                  />
+                <div className="mb-4 switch-link">
+                  <Link to="/login">Already a member ?</Link>
                 </div>
 
                 <MDBBtn className="mb-4" size="lg">
