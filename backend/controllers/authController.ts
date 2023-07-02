@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongoose';
 import { SignInRequest, SignInResponse, SignUpRequest, SignUpResponse } from '../api';
 import { signJwt, verifyJwt } from '../auth';
 import { hashPassword } from '../helpers/helpers';

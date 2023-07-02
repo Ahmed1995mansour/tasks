@@ -11,6 +11,7 @@ import {
   MDBRow,
 } from 'mdb-react-ui-kit';
 import { Link } from 'react-router-dom';
+import LoginButton from '../../components/login-button/LoginButton';
 
 const Login = () => {
   return (
@@ -43,6 +44,7 @@ const Login = () => {
                 <MDBBtn className="mb-4" size="lg">
                   Login
                 </MDBBtn>
+                <LoginButton />
               </MDBCol>
 
               <MDBCol md="10" lg="6" className="order-1 order-lg-2 d-flex align-items-center">
