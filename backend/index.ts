@@ -19,11 +19,13 @@ const mode = process.env.NOD_ENV;
 app.use(express.json());
 app.use(loggerMiddleware);
 
+// app.use('/api/goal', protect, goalRoutes);
+
 app.use('/api/tasks', taskRoutes);
 app.use('/api/category', categoryRoutes);
 app.post('/api/signup', signUpHandler);
 app.post('/api/signin', signInHandler);
-app.get('/', (req: any, res: any) => {
+app.get('/', (_req: any, res: any) => {
   res.send('Hello from backend server');
 });
 

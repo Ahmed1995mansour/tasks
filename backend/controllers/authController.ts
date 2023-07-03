@@ -1,8 +1,8 @@
 import { SignInRequest, SignInResponse, SignUpRequest, SignUpResponse } from '../api';
-import { signJwt, verifyJwt } from '../auth';
+import { signJwt } from '../auth';
 import { hashPassword } from '../helpers/helpers';
 import User from '../models/userModel';
-import { ExpressHandler, UserT } from '../types';
+import { ExpressHandler } from '../types';
 
 export const signUpHandler: ExpressHandler<SignUpRequest, SignUpResponse> = async (req, res) => {
   const { firstName, lastName, username, email, password } = req.body;

@@ -6,7 +6,6 @@ import Category from '../models/categoryModel';
 // @access Public
 
 const addCategory = asyncHandler(async (req, res) => {
-  console.log(req.body);
   const { title } = req.body;
   if (!title) {
     res.status(400).send('All fields are required!!');
