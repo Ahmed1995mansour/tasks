@@ -54,3 +54,22 @@ $purple: #4B70E2;
     width: 65%;
 }
 
+input.input-error {
+   
+    border: 3px solid #fc8181 !important
+}
+
+p.error {
+    color:  #fc8181 ;
+    font-size: 12px;
+
+}
+
+.error-container {
+    margin-top: -20px;
+   align-items: flex-start;
+}
+
+button:disabled {
+    opacity: .3;
+}

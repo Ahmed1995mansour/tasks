@@ -21,6 +21,7 @@
     "date-fns": "^2.29.3",
     "firebase": "^9.22.1",
     "focus-trap-react": "^10.1.1",
+    "formik": "^2.4.2",
     "history": "^5.3.0",
     "mdb-react-ui-kit": "^6.0.0",
     "mdb-ui-kit": "^6.2.0",
@@ -30,13 +31,15 @@
     "react-day-picker": "^8.7.1",
     "react-dom": "^18.2.0",
     "react-popper": "^2.3.0",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.11.0",
     "react-scripts": "5.0.1",
     "react-select": "^5.7.2",
     "react-toastify": "^9.1.2",
     "sass": "^1.62.1",
     "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^1.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
