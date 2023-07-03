@@ -8,13 +8,13 @@ export const signUp = async ({ firstName, lastName, username, email, password }:
     email,
     password,
   });
-  console.log(response);
+  return response;
 };
 
-export const signIn = async ({ login, password }: any) => {
+export const login = async ({ login, password }: any) => {
   const response = await axios.post(`http://localhost:5000/api/signin`, {
     login,
     password,
   });
-  console.log(response);
+  return response;
 };

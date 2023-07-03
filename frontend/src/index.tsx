@@ -2,13 +2,12 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import React from 'react';
+import { AuthProvider } from 'react-auth-kit';
 import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, useNavigate } from 'react-router-dom';
 import App from './App';
-import { getAuth0ClientId, getAuth0Domain } from './helpers/helpers';
 import './index.css';
-import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -16,15 +15,17 @@ const queryClient = new QueryClient();
 
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <App />
-      </QueryClientProvider>
-    </BrowserRouter>
+    <AuthProvider
+      authType={'cookie'}
+      authName={'_auth'}
+      cookieDomain={window.location.hostname}
+      cookieSecure={false} // set it to true when deploying
+    >
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
+      </BrowserRouter>
+    </AuthProvider>
   </React.StrictMode>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

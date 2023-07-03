@@ -10,15 +10,24 @@ import {
   MDBInput,
   MDBRow,
 } from 'mdb-react-ui-kit';
+import { useSignIn } from 'react-auth-kit';
 import { useMutation } from 'react-query';
-import { Link } from 'react-router-dom';
-import { signIn } from '../../apis/apis';
+import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../../apis/apis';
 import { loginSchema } from '../../forms-Schema/registerFormSchema';
 
 const Login = () => {
-  const mutation = useMutation(signIn, {
-    onSuccess: () => {
-      console.log('Logged in');
+  const navigate = useNavigate();
+  const signIn = useSignIn();
+  const mutation = useMutation(login, {
+    onSuccess: (value: any) => {
+      signIn({
+        token: value.data.jwt,
+        expiresIn: 3600,
+        tokenType: 'Bearer',
+        authState: value.data.user,
+      });
+      navigate('/');
     },
   });
 
@@ -28,6 +37,7 @@ const Login = () => {
       login,
       password,
     });
+
     actions.resetForm();
   };
 

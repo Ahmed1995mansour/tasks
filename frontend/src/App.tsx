@@ -1,7 +1,7 @@
-import { useAuth0 } from '@auth0/auth0-react';
 import axios from 'axios';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
+import { RequireAuth } from 'react-auth-kit';
 import { Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -48,15 +48,33 @@ function App() {
     getPercentage();
   }, [date]);
 
-  const { isLoading, isAuthenticated } = useAuth0();
+  const isAuthenticated = false;
 
   return (
     <div className="App">
       <Routes>
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
-        {isLoading ? <Route path="/" element={<Loader />} /> : null}
-        {isAuthenticated ? (
+        <Route path="/" element={<Header />}>
+          <Route
+            index
+            element={
+              <RequireAuth loginPath="/login">
+                <Home
+                  completed={completed}
+                  selectDateFilter={selectDateFilter}
+                  getTasksByDate={getTasksByDate}
+                  tasks={tasks}
+                  getPercentage={getPercentage}
+                  onAddingTask={onAddingTask}
+                />
+              </RequireAuth>
+            }
+          />
+          <Route path="/account" element={<Account />} />
+        </Route>
+
+        {/* {isAuthenticated ? (
           <Route path="/" element={<Header />}>
             <Route
               index
@@ -76,7 +94,7 @@ function App() {
           </Route>
         ) : (
           <Route path="/" element={<LandingPage />} />
-        )}
+        )} */}
       </Routes>
 
       <ToastContainer />

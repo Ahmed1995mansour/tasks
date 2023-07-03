@@ -1,36 +1,42 @@
-import { useAuth0 } from '@auth0/auth0-react';
+import { useIsAuthenticated, useSignOut } from 'react-auth-kit';
+import { useAuthUser } from 'react-auth-kit';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar from 'react-bootstrap/Navbar';
-import { Link, NavLink, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { ReactComponent as Logo } from '../logo-svg/Logo.svg';
 import './header.styles.scss';
 
 const UserNav = () => {
-  const { isLoading, logout, isAuthenticated, loginWithRedirect, user } = useAuth0();
+  const auth = useAuthUser();
 
-  if (isLoading) return null;
-  if (isAuthenticated)
-    return (
-      <NavDropdown title={user?.nickname} id="navbarScrollingDropdown">
-        <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-        <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
-        <NavDropdown.Divider />
-
-        <NavDropdown.Item className="link-logout" onClick={() => logout()}>
-          Logout
-        </NavDropdown.Item>
-      </NavDropdown>
-    );
+  const navigate = useNavigate();
+  const signOut = useSignOut();
+  const logOut = () => {
+    signOut();
+    navigate('/login');
+  };
 
   return (
-    <Nav.Link>
-      <Button onClick={() => loginWithRedirect()}>Login</Button>
-    </Nav.Link>
+    <NavDropdown title={auth()?.firstName} id="navbarScrollingDropdown">
+      <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+      <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
+      <NavDropdown.Divider />
+
+      <NavDropdown.Item className="link-logout" onClick={() => logOut()}>
+        Logout
+      </NavDropdown.Item>
+    </NavDropdown>
   );
+
+  // return (
+  //   <Nav.Link>
+  //     <Button onClick={() => loginWithRedirect()}>Login</Button>
+  //   </Nav.Link>
+  // );
 };
 
 const Header = () => {

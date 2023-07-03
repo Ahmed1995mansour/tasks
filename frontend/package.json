@@ -27,6 +27,7 @@
     "mdb-ui-kit": "^6.2.0",
     "moment": "^2.29.4",
     "react": "^18.2.0",
+    "react-auth-kit": "^2.12.3",
     "react-bootstrap": "^2.7.4",
     "react-day-picker": "^8.7.1",
     "react-dom": "^18.2.0",
