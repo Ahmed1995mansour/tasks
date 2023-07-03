@@ -17,16 +17,10 @@ const port = process.env.PORT;
 
 const mode = process.env.NOD_ENV;
 
-const jwtCheck = auth({
-  audience: 'http://localhost:5000',
-  issuerBaseURL: 'https://dev-tasks.eu.auth0.com/',
-  tokenSigningAlg: 'RS256',
-});
-
 app.use(express.json());
 app.use(loggerMiddleware);
 
-app.use('/api/tasks', jwtCheck, taskRoutes);
+app.use('/api/tasks', taskRoutes);
 app.use('/api/category', categoryRoutes);
 app.post('/api/signup', signUpHandler);
 app.post('/api/signin', signInHandler);

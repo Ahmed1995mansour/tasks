@@ -1,4 +1,3 @@
-import { type } from 'os';
 import { UserT } from './types';
 
 export type SignUpRequest = Pick<
