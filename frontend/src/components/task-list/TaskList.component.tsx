@@ -6,16 +6,16 @@ type props = {
   getTasksByDate: Function;
   getPercentage: Function;
 };
-const TaskList: React.FC<props> = ({ tasks, getTasksByDate, getPercentage }) => {
+const TaskList: React.FC<props> = ({ tasks }) => {
   return (
     <div className="container task-list">
-      <ul>
+      {/* <ul>
         {tasks.map((task: any) => (
           <li key={task._id}>
-            <Task getTasksByDate={getTasksByDate} task={task} getPercentage={getPercentage} />
+            <Task task={task} />
           </li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 };

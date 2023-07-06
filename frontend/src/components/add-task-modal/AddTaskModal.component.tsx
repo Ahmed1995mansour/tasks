@@ -1,13 +1,26 @@
-import axios from 'axios';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useAuthHeader } from 'react-auth-kit';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import Select from 'react-select';
 import { toast } from 'react-toastify';
+import { addTask, getCategoriesByGoal, getGoals } from '../../apis/apis';
 import AddButton from '../add-button/AddButton.component';
 import DatePiker from '../date-picker/DatePiker.component';
 import './add-task-modal.styles.css';
+
+type GoalStateT = {
+  label: string;
+  value: string;
+};
+
+type CategoryStateT = {
+  label: string;
+  value: string;
+};
 
 type props = {
   onAddTask: Function;
@@ -15,35 +28,75 @@ type props = {
 const AddTaskModal: React.FC<props> = ({ onAddTask }) => {
   const [show, setShow] = useState(false);
   const [taskTitle, setTaskTitle] = useState('');
-  const [categories, setCategories] = useState([]);
-  const [category, setCategory] = useState({ title: '', _id: '' });
+  const [categories, setCategories] = useState<CategoryStateT[]>();
+  const [category, setCategory] = useState<CategoryStateT | null>();
+  const [goals, setGoals] = useState();
+  const [goal, setGoal] = useState<GoalStateT>();
   const [date, setDate] = useState<Date>(new Date(moment().format('L')));
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const addTaskHandler = async () => {
-    const task = {
-      title: taskTitle,
-      category: category._id,
-      date: date,
-    };
+  const auth = useAuthHeader();
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: auth(),
+    },
+  };
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    try {
-      const { data } = await axios.post(`http://localhost:5000/api/tasks`, task, config);
-
-      toast('Task Added', {
+  const queryClient = useQueryClient();
+  const mutation = useMutation(addTask, {
+    onSuccess: value => {
+      toast(`Task '${value.data.title}' added`, {
         type: 'success',
         theme: 'colored',
       });
-    } catch (error) {
+      queryClient.invalidateQueries('tasks');
+      queryClient.invalidateQueries(['tasks', category?.value]);
+    },
+    onError: error => {
       toast(`Error: ${error}`, { type: 'error', theme: 'colored' });
+    },
+  });
+
+  const { data: goalsData } = useQuery('goals', () => getGoals(config), {
+    refetchOnWindowFocus: false,
+    onSuccess: data => {
+      const fetchedGoals = data.data.map((goal: any) => ({
+        label: `${goal.title}`,
+        value: `${goal._id}`,
+      }));
+      setGoals(fetchedGoals);
+    },
+  });
+
+  const { data: categoriesData } = useQuery(
+    ['categories', goal?.value],
+    () => getCategoriesByGoal(goal?.value, config),
+    {
+      enabled: !!goal,
+      onSuccess: data => {
+        const fetchedCategories = data.data.map((category: any) => ({
+          label: `${category.title}`,
+          value: `${category._id}`,
+        }));
+        setCategories(fetchedCategories);
+      },
     }
-    onAddTask();
+  );
+  const addTaskHandler = async () => {
+    const task = {
+      title: taskTitle,
+      goal: goal?.value,
+      category: category?.value,
+      date: date,
+    };
+
+    mutation.mutate({
+      task,
+      config,
+    });
+
     handleClose();
   };
 
@@ -51,21 +104,15 @@ const AddTaskModal: React.FC<props> = ({ onAddTask }) => {
     setDate(value);
   };
 
-  const getCategories = async () => {
-    const categoriesData = await axios.get(`http://localhost:5000/api/category`);
-    setCategories(categoriesData.data);
+  const onSelectGoalChange = (option: any) => {
+    setCategory(null);
+    setGoal(option);
   };
 
-  const handleSelectCategory = (event: any) => {
-    const selectedCategoryArr = categories.find((cat: any) => cat.title === event.target.value);
-    if (selectedCategoryArr) {
-      setCategory(selectedCategoryArr);
-    }
+  const onSelectCategoryChange = (option: any) => {
+    setCategory(option);
   };
 
-  useEffect(() => {
-    getCategories();
-  }, []);
   return (
     <>
       <AddButton onClickHandler={handleShow} />
@@ -78,6 +125,7 @@ const AddTaskModal: React.FC<props> = ({ onAddTask }) => {
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Control
+                className="input-task-title"
                 type="text"
                 value={taskTitle}
                 onChange={(e: any) => setTaskTitle(e.target.value)}
@@ -85,14 +133,30 @@ const AddTaskModal: React.FC<props> = ({ onAddTask }) => {
                 autoFocus
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Select onChange={handleSelectCategory}>
-                <option>Choose Category</option>
-                {categories.map((cat: any) => (
-                  <option key={cat._id}>{cat.title}</option>
-                ))}
-              </Form.Select>
+
+            <Form.Group>
+              <div className="select-goal" id="select-goal">
+                <Select
+                  defaultValue={goal}
+                  onChange={onSelectGoalChange}
+                  options={goals}
+                  placeholder="Select a goal"
+                />
+              </div>
             </Form.Group>
+
+            <Form.Group>
+              <div className="select-category" id="select-category">
+                <Select
+                  value={category}
+                  onChange={onSelectCategoryChange}
+                  options={categories || []}
+                  isDisabled={!goal}
+                  placeholder="Select a category"
+                />
+              </div>
+            </Form.Group>
+
             <Form.Group>
               <Form.Label>Select Date: </Form.Label>
               <DatePiker handleSelectDate={onSelectDate} />

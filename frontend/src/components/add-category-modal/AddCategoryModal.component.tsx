@@ -1,14 +1,55 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { useAuthHeader } from 'react-auth-kit';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import { useMutation, useQuery } from 'react-query';
+import { useQueryClient } from 'react-query';
+import Select from 'react-select';
 import { toast } from 'react-toastify';
+import { addCategory, getCategories, getGoals } from '../../apis/apis';
 import './add-category-modal.styles.css';
 
 function AddCategoryModal() {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(addCategory, {
+    onSuccess: value => {
+      toast(`Goal '${value.data.title}' added`, {
+        type: 'success',
+        theme: 'colored',
+      });
+      queryClient.invalidateQueries('categories');
+    },
+    onError: error => {
+      toast(`Error: ${error}`, { type: 'error', theme: 'colored' });
+    },
+  });
+
+  const authHeader = useAuthHeader();
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: authHeader(),
+    },
+  };
+
+  const { data: goalsData } = useQuery('goals', () => getGoals(config), {
+    refetchOnWindowFocus: false,
+    onSuccess: data => {
+      const fetchedGoals = data.data.map((goal: any) => ({
+        label: `${goal.title}`,
+        value: `${goal._id}`,
+      }));
+      setGoals(fetchedGoals);
+    },
+  });
   const [show, setShow] = useState(false);
   const [categoryTitle, setCategoryTitle] = useState('');
+  const [goal, setGoal] = useState();
+  const [goals, setGoals] = useState();
 
   const handleClose = () => setShow(false);
   const handleShow = () => {
@@ -19,23 +60,19 @@ function AddCategoryModal() {
   const addCategoryHandler = async () => {
     const category = {
       title: categoryTitle,
+      goal: goal,
     };
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    try {
-      const { data } = await axios.post(`http://localhost:5000/api/category`, category, config);
-      toast('Category Added', {
-        type: 'success',
-        theme: 'colored',
-      });
-    } catch (error) {
-      toast(`Error: ${error}`, { type: 'error', theme: 'colored' });
-    }
+
+    mutation.mutate({
+      category,
+      config,
+    });
 
     handleClose();
+  };
+
+  const onSelectChange = (option: any) => {
+    setGoal(option.value);
   };
 
   return (
@@ -58,6 +95,16 @@ function AddCategoryModal() {
                 placeholder="Title"
                 autoFocus
               />
+            </Form.Group>
+            <Form.Group>
+              <div className="select">
+                <Select
+                  defaultValue={goal}
+                  onChange={onSelectChange}
+                  options={goals}
+                  placeholder="Select goal"
+                />
+              </div>
             </Form.Group>
           </Form>
         </Modal.Body>

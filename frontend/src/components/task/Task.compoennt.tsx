@@ -1,14 +1,20 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { useAuthHeader } from 'react-auth-kit';
 import { toast } from 'react-toastify';
 import './task.styles.css';
 
 type props = {
-  task: { title: string; done: boolean; _id: string; category: { title: string } };
-  getTasksByDate: Function;
-  getPercentage: Function;
+  task: {
+    title: string;
+    done: boolean;
+    _id: string;
+    category: { title: string };
+    goal: { title: string };
+  };
 };
-const Task: React.FC<props> = ({ task, getTasksByDate, getPercentage }) => {
+const Task: React.FC<props> = ({ task }) => {
+  const auth = useAuthHeader();
   const [taskDone, setTaskDone] = useState(task.done);
 
   const changeTaskStatusHandler = async (event: any) => {
@@ -16,6 +22,7 @@ const Task: React.FC<props> = ({ task, getTasksByDate, getPercentage }) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
+        Authorization: auth(),
       },
     };
     try {
@@ -31,13 +38,12 @@ const Task: React.FC<props> = ({ task, getTasksByDate, getPercentage }) => {
     } catch (error) {
       toast('There was a problem', { type: 'error', theme: 'colored' });
     }
-    getTasksByDate();
-    getPercentage();
   };
   console.log(task);
   return (
     <div className="task d-flex justify-content-between">
       <div className="titles">
+        <h5 className="task-goal-title">{task.goal.title}</h5>
         <h5 className="task-category-title">{task.category.title}</h5>
         <h3 className="task-title">{task.title}</h3>
       </div>

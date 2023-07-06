@@ -9,11 +9,14 @@ import './App.css';
 import AuthenticationGuard from './components/authentication-guard/AuthenticationGuard.component';
 import Header from './components/navbar/Header.component';
 import Account from './routes/account/Account';
+import Categories from './routes/categories/Categories';
+import Goals from './routes/goals/Goals';
 import Home from './routes/home-page/Home';
 import LandingPage from './routes/landing-page/LandingPage';
 import Loader from './routes/loader/Loader';
 import Login from './routes/login/Login';
 import Register from './routes/register/Register';
+import Tasks from './routes/tasks/Tasks';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -71,7 +74,39 @@ function App() {
               </RequireAuth>
             }
           />
-          <Route path="/account" element={<Account />} />
+          <Route
+            path="/goals"
+            element={
+              <RequireAuth loginPath="/login">
+                <Goals />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/categories"
+            element={
+              <RequireAuth loginPath="/login">
+                <Categories />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/account"
+            element={
+              <RequireAuth loginPath="/login">
+                <Account />
+              </RequireAuth>
+            }
+          />
+
+          <Route
+            path="/tasks"
+            element={
+              <RequireAuth loginPath="/login">
+                <Tasks />
+              </RequireAuth>
+            }
+          />
         </Route>
 
         {/* {isAuthenticated ? (

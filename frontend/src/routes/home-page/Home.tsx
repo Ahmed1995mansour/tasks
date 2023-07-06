@@ -1,4 +1,5 @@
 import AddCategoryModal from '../../components/add-category-modal/AddCategoryModal.component';
+import AddGoalModal from '../../components/add-goal-modal/AddGoalModal.component';
 import AddTaskModal from '../../components/add-task-modal/AddTaskModal.component';
 import FilterBar from '../../components/filter-bar/FilterBar.component';
 import ProgressBar from '../../components/progress-bar/ProgressBar.component';
@@ -30,6 +31,7 @@ const Home: React.FC<props> = ({
       <TaskList getTasksByDate={getTasksByDate} tasks={tasks} getPercentage={getPercentage} />
       <AddTaskModal onAddTask={onAddingTask} />
       <AddCategoryModal />
+      <AddGoalModal />
     </div>
   );
 };

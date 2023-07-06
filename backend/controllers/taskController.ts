@@ -6,19 +6,42 @@ import Task from '../models/taskModel';
 // @acess  Public
 
 const addTask = asyncHandler(async (req, res) => {
-  const { title, category, date } = req.body;
+  const { title, category, goal, date } = req.body;
+  const { user } = req;
   const convertedDate = new Date(date);
 
-  if (!title && !category && !date) {
+  if (!title && !category && !date && !goal) {
     res.status(400).send('All fields are required!');
   } else {
     const task = new Task({
       category,
+      goal,
+      user: user._id,
       title,
       date: convertedDate,
     });
     const addedTask = await task.save();
     res.status(201).send(addedTask);
+  }
+});
+
+// @desc   Fetch all tasks
+// @route  GET /api/tasks
+// @access Private
+
+const getTasks = asyncHandler(async (req, res) => {
+  const { user } = req;
+
+  if (!user) {
+    res.status(401).send('Not Authorized');
+  }
+
+  const tasks = await Task.find({ user: user._id }).populate('category').populate('goal');
+
+  if (!tasks) {
+    res.status(404).send('No task found');
+  } else {
+    res.status(200).json(tasks);
   }
 });
 
@@ -67,4 +90,4 @@ const getCompletedTasksPercentage = asyncHandler(async (req, res) => {
   res.json((count / totalNumber) * 100);
 });
 
-export { addTask, getTasksbyDate, completeTask, getCompletedTasksPercentage };
+export { addTask, getTasksbyDate, completeTask, getCompletedTasksPercentage, getTasks };

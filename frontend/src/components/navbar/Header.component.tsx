@@ -40,16 +40,32 @@ const Header = () => {
                 </Button>
               </Form>
               <Nav className="ms-auto my-2 my-lg-0 " style={{ maxHeight: '100px' }} navbarScroll>
-                <Link className="nav-account" to="/account">
-                  Account
+                <Link className="nav-account" to="/goals">
+                  Goals
+                </Link>
+                <Link className="nav-account" to="/categories">
+                  Categories
+                </Link>
+                <Link className="nav-account" to="/tasks">
+                  Tasks
                 </Link>
 
-                <NavDropdown title={auth()?.firstName} id="navbarScrollingDropdown">
-                  <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                  <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
+                <NavDropdown
+                  className="dropdown"
+                  title={auth()?.firstName}
+                  id="navbarScrollingDropdown"
+                >
+                  <NavDropdown.Item className="dropdownItem" href="#action3">
+                    <Link className="nav-account" to="/account">
+                      Account
+                    </Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item className="dropdownItem" href="#action4">
+                    Another action
+                  </NavDropdown.Item>
                   <NavDropdown.Divider />
 
-                  <NavDropdown.Item className="link-logout" onClick={() => logOut()}>
+                  <NavDropdown.Item className="dropdownItem link-logout" onClick={() => logOut()}>
                     Logout
                   </NavDropdown.Item>
                 </NavDropdown>
