@@ -31,7 +31,6 @@ export const getGoals = async (config: any) => {
 };
 
 export const addCategory = async ({ config, category }: any) => {
-  console.log(config);
   return await axios.post(`${SERVER}/api/category`, category, config);
 };
 
@@ -49,4 +48,16 @@ export const addTask = async ({ task, config }: any) => {
 
 export const getTasks = async (config: any) => {
   return await axios.get(`${SERVER}/api/tasks`, config);
+};
+
+export const getTasksByDate = async (config: any, date: any) => {
+  return await axios.get(`${SERVER}/api/tasks/${date}`, config);
+};
+
+export const markTaskComletede = async ({ config, taskId, done }: any) => {
+  return await axios.put(`${SERVER}/api/tasks/${taskId}`, { done }, config);
+};
+
+export const getAllTasksPercentage = async (config: any) => {
+  return await axios.get(`${SERVER}/api/tasks/percentage`, config);
 };

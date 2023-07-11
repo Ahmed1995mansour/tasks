@@ -29,15 +29,15 @@ const Tasks = () => {
   if (isError) return <Message content={error} />;
 
   return (
-    <div className="categories-container container pt-5">
-      <h2>Categories</h2>
+    <div className="tasks-container container pt-5">
+      <h2>Tasks</h2>
       <FilterHeader />
-      <div className="categories">
+      <div className="tasks">
         {data?.data.map((task: any) => (
           <Task key={task._id} task={task} />
         ))}
       </div>
-      <AddTaskModal onAddTask={() => {}} />
+      <AddTaskModal />
     </div>
   );
 };

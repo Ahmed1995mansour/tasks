@@ -1,3 +1,7 @@
 .dialog-sheet {
     background-color: #f1f1f1;
 }
+
+.date-picker {
+    z-index: 99 !important
+}

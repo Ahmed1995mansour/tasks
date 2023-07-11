@@ -1,35 +1,61 @@
+import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { useAuthHeader } from 'react-auth-kit';
+import { useMutation, useQuery } from 'react-query';
+import { getAllTasksPercentage, getTasksByDate } from '../../apis/apis';
 import AddCategoryModal from '../../components/add-category-modal/AddCategoryModal.component';
 import AddGoalModal from '../../components/add-goal-modal/AddGoalModal.component';
 import AddTaskModal from '../../components/add-task-modal/AddTaskModal.component';
 import FilterBar from '../../components/filter-bar/FilterBar.component';
 import ProgressBar from '../../components/progress-bar/ProgressBar.component';
-import TaskList from '../../components/task-list/TaskList.component';
+import Task from '../../components/task/Task.compoennt';
 
-type props = {
-  completed: number;
-  selectDateFilter: Function;
-  getTasksByDate: Function;
-  tasks: Array<any>;
-  getPercentage: Function;
-  onAddingTask: Function;
-};
-const Home: React.FC<props> = ({
-  completed,
-  selectDateFilter,
-  getTasksByDate,
-  tasks,
-  getPercentage,
-  onAddingTask,
-}) => {
+type props = {};
+const Home: React.FC<props> = ({}) => {
+  const authHeader = useAuthHeader();
+
+  const [tasks, setTasks] = useState([]);
+  const [date, setDate] = useState<Date>(new Date(moment().format('L')));
+  const [completed, setCompleted] = useState(0);
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: authHeader(),
+    },
+  };
+  const { data: tasksData } = useQuery(['tasks', date], () => getTasksByDate(config, date), {
+    refetchOnWindowFocus: false,
+    onSuccess: data => {
+      setTasks(data.data);
+    },
+  });
+
+  const { data: percentageData } = useQuery(['percentage'], () => getAllTasksPercentage(config), {
+    refetchOnWindowFocus: false,
+    onSuccess: data => {
+      setCompleted(Math.round(data.data));
+    },
+  });
+
+  const selectDateFilter = (date: Date) => {
+    setDate(date);
+  };
+
   return (
-    <div className="home">
-      <h2 className="title">Tasks: Road to Full Stack MERN </h2>
+    <div className="home container-fluid">
+      <h2 className="title">Tasks: All tasks progress </h2>
       <ProgressBar completed={completed} />
 
       <FilterBar selectDateFilter={selectDateFilter} />
-
-      <TaskList getTasksByDate={getTasksByDate} tasks={tasks} getPercentage={getPercentage} />
-      <AddTaskModal onAddTask={onAddingTask} />
+      <div className="tasks container">
+        {tasks.length > 0 ? (
+          tasks.map((task: any) => <Task key={task._id} task={task} />)
+        ) : (
+          <p>There are no tasks in this day</p>
+        )}
+      </div>
+      <AddTaskModal />
       <AddCategoryModal />
       <AddGoalModal />
     </div>

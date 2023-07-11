@@ -22,10 +22,8 @@ type CategoryStateT = {
   value: string;
 };
 
-type props = {
-  onAddTask: Function;
-};
-const AddTaskModal: React.FC<props> = ({ onAddTask }) => {
+type props = {};
+const AddTaskModal: React.FC<props> = () => {
   const [show, setShow] = useState(false);
   const [taskTitle, setTaskTitle] = useState('');
   const [categories, setCategories] = useState<CategoryStateT[]>();
@@ -52,6 +50,7 @@ const AddTaskModal: React.FC<props> = ({ onAddTask }) => {
         theme: 'colored',
       });
       queryClient.invalidateQueries('tasks');
+      queryClient.invalidateQueries('percentage');
       queryClient.invalidateQueries(['tasks', category?.value]);
     },
     onError: error => {

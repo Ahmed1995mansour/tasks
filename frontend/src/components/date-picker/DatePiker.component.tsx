@@ -35,7 +35,7 @@ export default function DatePiker({ handleSelectDate }: any) {
   };
 
   const handleButtonClick = () => {
-    setIsPopperOpen(true);
+    setIsPopperOpen(!isPopperOpen);
   };
 
   const handleDaySelect: any = (date: Date) => {

@@ -19,6 +19,7 @@ const addTask = asyncHandler(async (req, res) => {
       user: user._id,
       title,
       date: convertedDate,
+      done: false,
     });
     const addedTask = await task.save();
     res.status(201).send(addedTask);
@@ -51,8 +52,12 @@ const getTasks = asyncHandler(async (req, res) => {
 
 const getTasksbyDate = asyncHandler(async (req, res) => {
   const date = new Date(req.params.date);
+  const { user } = req;
 
-  const tasks = await Task.find({ date }).populate('category');
+  if (!user) {
+    res.status(401).send('Not Authorized');
+  }
+  const tasks = await Task.find({ user: user._id, date }).populate('category').populate('goal');
 
   if (!tasks) {
     res.status(404).send('No task found');
@@ -67,7 +72,7 @@ const getTasksbyDate = asyncHandler(async (req, res) => {
 
 const completeTask = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  console.log(req.body);
+
   const task = await Task.findByIdAndUpdate(id, { done: req.body.done }, { new: true });
 
   res.json(task);
@@ -80,7 +85,12 @@ const completeTask = asyncHandler(async (req, res) => {
 const getCompletedTasksPercentage = asyncHandler(async (req, res) => {
   let count = 0;
   let totalNumber = 0;
-  const tasks = await Task.find({});
+  const { user } = req;
+  if (!user) {
+    res.status(401).send('Not Authorized');
+  }
+
+  const tasks = await Task.find({ user: user._id });
   tasks.forEach((element: any) => {
     totalNumber++;
     if (element.done) {

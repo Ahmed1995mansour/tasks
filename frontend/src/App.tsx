@@ -6,14 +6,11 @@ import { Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
-import AuthenticationGuard from './components/authentication-guard/AuthenticationGuard.component';
 import Header from './components/navbar/Header.component';
 import Account from './routes/account/Account';
 import Categories from './routes/categories/Categories';
 import Goals from './routes/goals/Goals';
 import Home from './routes/home-page/Home';
-import LandingPage from './routes/landing-page/LandingPage';
-import Loader from './routes/loader/Loader';
 import Login from './routes/login/Login';
 import Register from './routes/register/Register';
 import Tasks from './routes/tasks/Tasks';
@@ -27,29 +24,24 @@ function App() {
     setDate(date);
   };
 
-  const getTasksByDate = async () => {
-    const { data } = await axios.get(`http://localhost:5000/api/tasks/${date}`);
+  // const getTasksByDate = async () => {
+  //   const { data } = await axios.get(`http://localhost:5000/api/tasks/${date}`);
 
-    if (data) {
-      setTasks(data);
-    }
-    return data;
-  };
+  //   if (data) {
+  //     setTasks(data);
+  //   }
+  //   return data;
+  // };
 
-  const getPercentage = async () => {
-    const { data } = await axios.get(`http://localhost:5000/api/tasks/percentage`);
-    setCompleted(Math.round(data));
-  };
+  // const onAddingTask = () => {
+  //   getTasksByDate();
+  //   getPercentage();
+  // };
 
-  const onAddingTask = () => {
-    getTasksByDate();
-    getPercentage();
-  };
-
-  useEffect(() => {
-    getTasksByDate();
-    getPercentage();
-  }, [date]);
+  // useEffect(() => {
+  //   getTasksByDate();
+  //   getPercentage();
+  // }, [date]);
 
   const isAuthenticated = false;
 
@@ -63,14 +55,7 @@ function App() {
             index
             element={
               <RequireAuth loginPath="/login">
-                <Home
-                  completed={completed}
-                  selectDateFilter={selectDateFilter}
-                  getTasksByDate={getTasksByDate}
-                  tasks={tasks}
-                  getPercentage={getPercentage}
-                  onAddingTask={onAddingTask}
-                />
+                <Home />
               </RequireAuth>
             }
           />

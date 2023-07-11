@@ -1,24 +1,49 @@
 
-
 .checkbox {
     transform: scale(2);
     margin-right: 11px;
   }
-  
 
-  
-  .task {
-    font-size: 1.2em;
-    font-family: arial;
-    overflow: hidden;
-    background-color: #ebd6d6;
-    padding: 20px;
-    margin-bottom: 15px;
-    border-radius: 5px;
+  .task  {
+    width:40%;
+}
+
+  .task .task-controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   
-  .titles .task-category-title , .titles .task-title  {
+.task  .task-parents{
     text-align: left;
   }
 
+  .task .card-body {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .task .task-actions {
+    display: flex;
+   align-items: self-end;
+}
+
+.task .task-actions .btn {
+    margin-right: 10px;
+}
   
+.bg-complete {
+  background-color: #CCEEBC;
+  color: #000;
+}
+
+.bg-uncomplete {
+  background-color: #E7CEA6;
+  color: #000;
+}
+
+@media (max-width: 1200px) {
+  .task {
+      width: 100%;
+  }
+}

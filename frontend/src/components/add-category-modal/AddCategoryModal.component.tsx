@@ -97,7 +97,7 @@ function AddCategoryModal() {
               />
             </Form.Group>
             <Form.Group>
-              <div className="select">
+              <div className="select-goal">
                 <Select
                   defaultValue={goal}
                   onChange={onSelectChange}
