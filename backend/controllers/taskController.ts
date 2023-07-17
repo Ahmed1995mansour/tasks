@@ -6,15 +6,14 @@ import Task from '../models/taskModel';
 // @acess  Public
 
 const addTask = asyncHandler(async (req, res) => {
-  const { title, category, goal, date } = req.body;
+  const { title, goal, date } = req.body;
   const { user } = req;
   const convertedDate = new Date(date);
 
-  if (!title && !category && !date && !goal) {
+  if (!title && !date && !goal) {
     res.status(400).send('All fields are required!');
   } else {
     const task = new Task({
-      category,
       goal,
       user: user._id,
       title,
@@ -54,7 +53,7 @@ const getTasks = asyncHandler(async (req, res) => {
     res.status(401).send('Not Authorized');
   }
 
-  const tasks = await Task.find({ user: user._id }).populate('category').populate('goal');
+  const tasks = await Task.find({ user: user._id }).populate('goal');
 
   if (!tasks) {
     res.status(404).send('No task found');
@@ -74,7 +73,7 @@ const getTasksbyDate = asyncHandler(async (req, res) => {
   if (!user) {
     res.status(401).send('Not Authorized');
   }
-  const tasks = await Task.find({ user: user._id, date }).populate('category').populate('goal');
+  const tasks = await Task.find({ user: user._id, date }).populate('goal');
 
   if (!tasks) {
     res.status(404).send('No task found');

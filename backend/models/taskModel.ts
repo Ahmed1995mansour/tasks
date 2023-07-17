@@ -2,11 +2,6 @@ import mongoose from 'mongoose';
 
 const taskSchema = new mongoose.Schema(
   {
-    category: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: 'Category',
-    },
     goal: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

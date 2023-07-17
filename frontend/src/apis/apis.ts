@@ -30,18 +30,6 @@ export const getGoals = async (config: any) => {
   return await axios.get(`${SERVER}/api/goal`, config);
 };
 
-export const addCategory = async ({ config, category }: any) => {
-  return await axios.post(`${SERVER}/api/category`, category, config);
-};
-
-export const getCategories = async (config: any) => {
-  return await axios.get(`${SERVER}/api/category`, config);
-};
-
-export const getCategoriesByGoal = async (goal: any, config: any) => {
-  return await axios.get(`${SERVER}/api/category/categoriesbygoal/${goal}`, config);
-};
-
 export const addTask = async ({ task, config }: any) => {
   return await axios.post(`${SERVER}/api/tasks`, task, config);
 };

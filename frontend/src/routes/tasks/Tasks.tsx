@@ -1,6 +1,6 @@
 import { useAuthHeader } from 'react-auth-kit';
 import { useQuery } from 'react-query';
-import { getCategories, getTasks } from '../../apis/apis';
+import { getTasks } from '../../apis/apis';
 import AddTaskModal from '../../components/add-task-modal/AddTaskModal.component';
 import FilterHeader from '../../components/filter-header/FilterHeader.component';
 import Message from '../../components/message/Message.component';

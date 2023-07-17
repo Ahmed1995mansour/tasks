@@ -1,9 +1,7 @@
-import axios from 'axios';
 import { useState } from 'react';
-import { useRef } from 'react';
 import { useAuthHeader } from 'react-auth-kit';
 import { useMutation, useQueryClient } from 'react-query';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { deleteTask, markTaskComletede } from '../../apis/apis';
 import DeleteConfirmModal from '../delete-modal/DeleteModal';
@@ -14,7 +12,6 @@ type props = {
     title: string;
     done: boolean;
     _id: string;
-    category: { title: string };
     goal: { title: string };
   };
 };
@@ -78,15 +75,16 @@ const Task: React.FC<props> = ({ task }) => {
     <div
       id={task._id}
       className={
-        task.done ? 'task card bg-success text-white mb-3' : 'task card  bg-uncomplete mb-3'
+        task.done ? 'task card bg-success text-white mb-1' : 'task card  bg-uncomplete mb-1'
       }
       style={{ maxWidth: '18 rem' }}
     >
-      <div className="card-header">{task.title}</div>
       <div className="card-body">
         <div className="task-parents ">
-          <h4 className="card-title">{task.goal.title}</h4>
-          <h5>{task.category.title}</h5>
+          <h4 className="task-title">{task.title}</h4>
+          <Link to="/tasks">
+            <p className="goal-title">{task.goal.title}</p>
+          </Link>
         </div>
         <div className="task-controls">
           <div className="task-complete">
@@ -97,7 +95,7 @@ const Task: React.FC<props> = ({ task }) => {
               onChange={changeTaskStatusHandler}
             />
           </div>
-          <div className="task-actions">
+          {/* <div className="task-actions">
             <Link className="btn btn-primary" to="/">
               View
             </Link>
@@ -105,7 +103,7 @@ const Task: React.FC<props> = ({ task }) => {
               Edit
             </Link>
             <DeleteConfirmModal deleteHandler={() => deleteTaskHandler(task._id)} />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

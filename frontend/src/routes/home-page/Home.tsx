@@ -1,9 +1,8 @@
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAuthHeader } from 'react-auth-kit';
-import { useMutation, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import { getAllTasksPercentage, getTasksByDate } from '../../apis/apis';
-import AddCategoryModal from '../../components/add-category-modal/AddCategoryModal.component';
 import AddGoalModal from '../../components/add-goal-modal/AddGoalModal.component';
 import AddTaskModal from '../../components/add-task-modal/AddTaskModal.component';
 import FilterBar from '../../components/filter-bar/FilterBar.component';
@@ -56,8 +55,8 @@ const Home: React.FC<props> = ({}) => {
         )}
       </div>
       <AddTaskModal />
-      <AddCategoryModal />
-      <AddGoalModal />
+
+      {/* <AddGoalModal /> */}
     </div>
   );
 };

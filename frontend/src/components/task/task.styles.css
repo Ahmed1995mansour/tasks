@@ -32,14 +32,17 @@
     margin-right: 10px;
 }
   
-.bg-complete {
-  background-color: #CCEEBC;
-  color: #000;
+.bg-success .goal-title {
+  color: #DEDEDE;
 }
 
 .bg-uncomplete {
-  background-color: #E7CEA6;
+  background-color: #e0e0de;
   color: #000;
+}
+
+.bg-uncomplete .goal-title {
+  color: #757575;
 }
 
 @media (max-width: 1200px) {

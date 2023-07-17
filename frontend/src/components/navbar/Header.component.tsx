@@ -43,9 +43,7 @@ const Header = () => {
                 <Link className="nav-account" to="/goals">
                   Goals
                 </Link>
-                <Link className="nav-account" to="/categories">
-                  Categories
-                </Link>
+
                 <Link className="nav-account" to="/tasks">
                   Tasks
                 </Link>

@@ -7,7 +7,8 @@ import Modal from 'react-bootstrap/Modal';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
-import { addTask, getCategoriesByGoal, getGoals } from '../../apis/apis';
+import { addTask, getGoals } from '../../apis/apis';
+import AddButtonV2 from '../add-button-v2/AddButtonV2';
 import AddButton from '../add-button/AddButton.component';
 import DatePiker from '../date-picker/DatePiker.component';
 import './add-task-modal.styles.css';
@@ -17,17 +18,10 @@ type GoalStateT = {
   value: string;
 };
 
-type CategoryStateT = {
-  label: string;
-  value: string;
-};
-
 type props = {};
 const AddTaskModal: React.FC<props> = () => {
   const [show, setShow] = useState(false);
   const [taskTitle, setTaskTitle] = useState('');
-  const [categories, setCategories] = useState<CategoryStateT[]>();
-  const [category, setCategory] = useState<CategoryStateT | null>();
   const [goals, setGoals] = useState();
   const [goal, setGoal] = useState<GoalStateT>();
   const [date, setDate] = useState<Date>(new Date(moment().format('L')));
@@ -51,7 +45,6 @@ const AddTaskModal: React.FC<props> = () => {
       });
       queryClient.invalidateQueries('tasks');
       queryClient.invalidateQueries('percentage');
-      queryClient.invalidateQueries(['tasks', category?.value]);
     },
     onError: error => {
       toast(`Error: ${error}`, { type: 'error', theme: 'colored' });
@@ -69,25 +62,10 @@ const AddTaskModal: React.FC<props> = () => {
     },
   });
 
-  const { data: categoriesData } = useQuery(
-    ['categories', goal?.value],
-    () => getCategoriesByGoal(goal?.value, config),
-    {
-      enabled: !!goal,
-      onSuccess: data => {
-        const fetchedCategories = data.data.map((category: any) => ({
-          label: `${category.title}`,
-          value: `${category._id}`,
-        }));
-        setCategories(fetchedCategories);
-      },
-    }
-  );
   const addTaskHandler = async () => {
     const task = {
       title: taskTitle,
       goal: goal?.value,
-      category: category?.value,
       date: date,
     };
 
@@ -104,17 +82,13 @@ const AddTaskModal: React.FC<props> = () => {
   };
 
   const onSelectGoalChange = (option: any) => {
-    setCategory(null);
     setGoal(option);
-  };
-
-  const onSelectCategoryChange = (option: any) => {
-    setCategory(option);
   };
 
   return (
     <>
       <AddButton onClickHandler={handleShow} />
+      <AddButtonV2 />
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -140,18 +114,6 @@ const AddTaskModal: React.FC<props> = () => {
                   onChange={onSelectGoalChange}
                   options={goals}
                   placeholder="Select a goal"
-                />
-              </div>
-            </Form.Group>
-
-            <Form.Group>
-              <div className="select-category" id="select-category">
-                <Select
-                  value={category}
-                  onChange={onSelectCategoryChange}
-                  options={categories || []}
-                  isDisabled={!goal}
-                  placeholder="Select a category"
                 />
               </div>
             </Form.Group>

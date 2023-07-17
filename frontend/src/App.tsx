@@ -5,7 +5,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import Header from './components/navbar/Header.component';
 import Account from './routes/account/Account';
-import Categories from './routes/categories/Categories';
 import Goals from './routes/goals/Goals';
 import Home from './routes/home-page/Home';
 import Login from './routes/login/Login';
@@ -36,14 +35,7 @@ function App() {
               </RequireAuth>
             }
           />
-          <Route
-            path="/categories"
-            element={
-              <RequireAuth loginPath="/login">
-                <Categories />
-              </RequireAuth>
-            }
-          />
+
           <Route
             path="/account"
             element={
