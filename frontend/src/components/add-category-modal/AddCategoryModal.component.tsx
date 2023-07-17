@@ -8,7 +8,7 @@ import { useMutation, useQuery } from 'react-query';
 import { useQueryClient } from 'react-query';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
-import { addCategory, getCategories, getGoals } from '../../apis/apis';
+import { addCategory, getGoals } from '../../apis/apis';
 import './add-category-modal.styles.css';
 
 function AddCategoryModal() {

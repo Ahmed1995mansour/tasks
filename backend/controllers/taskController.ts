@@ -26,6 +26,23 @@ const addTask = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc   delete existing task
+// @route  DELETE /api/tasks
+// @acess  Private
+
+const deleteTask = asyncHandler(async (req, res) => {
+  const { taskId } = req.body;
+  const { user } = req;
+
+  if (!user) {
+    res.status(401).send('Not Authorized');
+  }
+
+  await Task.deleteOne(taskId);
+
+  res.sendStatus(200);
+});
+
 // @desc   Fetch all tasks
 // @route  GET /api/tasks
 // @access Private
@@ -80,7 +97,7 @@ const completeTask = asyncHandler(async (req, res) => {
 
 // @desc   Get completed tasks percentage
 // @route  GET /api/tasks/percentage
-// @access Public
+// @access Private
 
 const getCompletedTasksPercentage = asyncHandler(async (req, res) => {
   let count = 0;
@@ -100,4 +117,4 @@ const getCompletedTasksPercentage = asyncHandler(async (req, res) => {
   res.json((count / totalNumber) * 100);
 });
 
-export { addTask, getTasksbyDate, completeTask, getCompletedTasksPercentage, getTasks };
+export { addTask, getTasksbyDate, completeTask, getCompletedTasksPercentage, getTasks, deleteTask };

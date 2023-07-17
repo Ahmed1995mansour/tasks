@@ -55,13 +55,15 @@ const Header = () => {
                   title={auth()?.firstName}
                   id="navbarScrollingDropdown"
                 >
-                  <NavDropdown.Item className="dropdownItem" href="#action3">
+                  <NavDropdown.Item className="dropdownItem" href="/profile">
+                    <Link className="nav-account" to="/profile">
+                      Profile
+                    </Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item className="dropdownItem" href="/account">
                     <Link className="nav-account" to="/account">
                       Account
                     </Link>
-                  </NavDropdown.Item>
-                  <NavDropdown.Item className="dropdownItem" href="#action4">
-                    Another action
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
 

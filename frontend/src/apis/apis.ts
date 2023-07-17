@@ -46,6 +46,10 @@ export const addTask = async ({ task, config }: any) => {
   return await axios.post(`${SERVER}/api/tasks`, task, config);
 };
 
+export const deleteTask = async ({ taskId, config }: any) => {
+  return await axios.delete(`${SERVER}/api/tasks/${taskId}`, config);
+};
+
 export const getTasks = async (config: any) => {
   return await axios.get(`${SERVER}/api/tasks`, config);
 };

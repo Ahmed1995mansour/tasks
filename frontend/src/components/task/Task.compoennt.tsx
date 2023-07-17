@@ -5,7 +5,8 @@ import { useAuthHeader } from 'react-auth-kit';
 import { useMutation, useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { markTaskComletede } from '../../apis/apis';
+import { deleteTask, markTaskComletede } from '../../apis/apis';
+import DeleteConfirmModal from '../delete-modal/DeleteModal';
 import './task.styles.css';
 
 type props = {
@@ -22,6 +23,21 @@ const Task: React.FC<props> = ({ task }) => {
   const queryClient = useQueryClient();
 
   const [taskDone, setTaskDone] = useState(task.done);
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: auth(),
+    },
+  };
+
+  const deleteMutation = useMutation(deleteTask, {
+    onSuccess: (data: any) => {
+      toast('Task Deleted', { type: 'error', theme: 'colored' });
+      queryClient.invalidateQueries('tasks');
+      queryClient.invalidateQueries('percentage');
+    },
+  });
 
   const mutation = useMutation(markTaskComletede, {
     onSuccess: (data: any) => {
@@ -44,17 +60,17 @@ const Task: React.FC<props> = ({ task }) => {
   });
 
   const changeTaskStatusHandler = async (event: any) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: auth(),
-      },
-    };
-
     mutation.mutate({
       config,
       taskId: task._id,
       done: event.target.checked,
+    });
+  };
+
+  const deleteTaskHandler = (taskId: any) => {
+    deleteMutation.mutate({
+      config,
+      taskId,
     });
   };
 
@@ -88,14 +104,7 @@ const Task: React.FC<props> = ({ task }) => {
             <Link className="btn btn-secondary" to="/">
               Edit
             </Link>
-            <button
-              onClick={() => {
-                alert('Are you sure ?');
-              }}
-              className="btn btn-danger"
-            >
-              Delete
-            </button>
+            <DeleteConfirmModal deleteHandler={() => deleteTaskHandler(task._id)} />
           </div>
         </div>
       </div>
