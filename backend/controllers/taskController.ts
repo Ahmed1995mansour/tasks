@@ -116,4 +116,29 @@ const getCompletedTasksPercentage = asyncHandler(async (req, res) => {
   res.json((count / totalNumber) * 100);
 });
 
-export { addTask, getTasksbyDate, completeTask, getCompletedTasksPercentage, getTasks, deleteTask };
+// @desc   Get task by id
+// @route  GET /api/tasks/:id
+// @access Private
+
+const getTaskById = asyncHandler(async (req, res) => {
+  const { user } = req;
+  const { id } = req.params;
+
+  const task = await Task.findById(id).populate('goal');
+  console.log(task);
+  if (!task) {
+    res.status(404).send('No Task with this Id found');
+  }
+
+  res.json(task);
+});
+
+export {
+  addTask,
+  getTasksbyDate,
+  completeTask,
+  getCompletedTasksPercentage,
+  getTasks,
+  deleteTask,
+  getTaskById,
+};

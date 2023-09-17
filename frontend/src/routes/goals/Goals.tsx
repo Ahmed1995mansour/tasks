@@ -37,7 +37,6 @@ const Goals = () => {
           <Goal key={goal._id} goal={goal} />
         ))}
       </div>
-      <AddGoalModal />
     </div>
   );
 };

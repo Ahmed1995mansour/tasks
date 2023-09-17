@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useAuthHeader } from 'react-auth-kit';
 import { useMutation, useQueryClient } from 'react-query';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { deleteTask, markTaskComletede } from '../../apis/apis';
-import DeleteConfirmModal from '../delete-modal/DeleteModal';
+import ActionsMenu from '../actions-menu/ActionsMenu';
 import './task.styles.css';
 
 type props = {
@@ -12,7 +12,7 @@ type props = {
     title: string;
     done: boolean;
     _id: string;
-    goal: { title: string };
+    goal: { title: string; _id: string };
   };
 };
 const Task: React.FC<props> = ({ task }) => {
@@ -80,30 +80,26 @@ const Task: React.FC<props> = ({ task }) => {
       style={{ maxWidth: '18 rem' }}
     >
       <div className="card-body">
-        <div className="task-parents ">
-          <h4 className="task-title">{task.title}</h4>
-          <Link to="/tasks">
-            <p className="goal-title">{task.goal.title}</p>
-          </Link>
-        </div>
-        <div className="task-controls">
-          <div className="task-complete">
+        <div className="task-info">
+          <div className="task-title">
             <input
               type="checkbox"
               className="checkbox"
               checked={taskDone || false}
               onChange={changeTaskStatusHandler}
             />
+            <Link to={`/tasks/${task._id}`}>
+              <h5>{task.title}</h5>
+            </Link>
           </div>
-          {/* <div className="task-actions">
-            <Link className="btn btn-primary" to="/">
-              View
+          <div className="goal-title">
+            <Link to={`/goals/${task.goal._id}`}>
+              <p>{task.goal.title}</p>
             </Link>
-            <Link className="btn btn-secondary" to="/">
-              Edit
-            </Link>
-            <DeleteConfirmModal deleteHandler={() => deleteTaskHandler(task._id)} />
-          </div> */}
+          </div>
+        </div>
+        <div className="task-controls">
+          <ActionsMenu taskId={task._id} onTaskDelete={() => deleteTaskHandler(task._id)} />
         </div>
       </div>
     </div>

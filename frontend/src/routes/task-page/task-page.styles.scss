@@ -1,0 +1,45 @@
+.task-page {
+    padding-top: 60px;
+}
+
+.task-page .card {
+    background-color: #EFEFEF;
+    margin: auto;
+}
+
+.task-page .card-body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.task-page .card .task-info {
+   display: flex;
+   justify-content: space-between;
+}
+
+
+.task-page .card .task-goal {
+    text-align: left;
+    color: #4f4f4f;
+    padding-top: 10px;
+}
+
+.task-page .task-body {
+    display: flex;
+    padding-top: 20px;
+    flex-grow: 1;
+}
+
+.task-page .task-body .task-desc-container {
+    max-width: 50%;
+}
+
+.task-page .card .task-desc {
+    text-align: left;
+}
+
+.task-page .subtasks-container .subtasks-list {
+    list-style-type: none;
+}

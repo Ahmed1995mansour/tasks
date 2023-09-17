@@ -10,6 +10,7 @@ import Home from './routes/home-page/Home';
 import Login from './routes/login/Login';
 import Profile from './routes/profile/Profile';
 import Register from './routes/register/Register';
+import TaskPage from './routes/task-page/TaskPage';
 import Tasks from './routes/tasks/Tasks';
 
 function App() {
@@ -58,6 +59,14 @@ function App() {
             element={
               <RequireAuth loginPath="/login">
                 <Profile />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/tasks/:taskId"
+            element={
+              <RequireAuth loginPath="/login">
+                <TaskPage />
               </RequireAuth>
             }
           />

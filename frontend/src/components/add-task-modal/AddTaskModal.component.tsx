@@ -9,7 +9,6 @@ import Select from 'react-select';
 import { toast } from 'react-toastify';
 import { addTask, getGoals } from '../../apis/apis';
 import AddButtonV2 from '../add-button-v2/AddButtonV2';
-import AddButton from '../add-button/AddButton.component';
 import DatePiker from '../date-picker/DatePiker.component';
 import './add-task-modal.styles.css';
 
@@ -17,15 +16,18 @@ type GoalStateT = {
   label: string;
   value: string;
 };
+type Props = {
+  showTaskModal: boolean;
+  handleCloseTaskModal: Function;
+};
 
-type props = {};
-const AddTaskModal: React.FC<props> = () => {
+const AddTaskModal: React.FC<Props> = ({ showTaskModal, handleCloseTaskModal }) => {
   const [show, setShow] = useState(false);
   const [taskTitle, setTaskTitle] = useState('');
   const [goals, setGoals] = useState();
   const [goal, setGoal] = useState<GoalStateT>();
   const [date, setDate] = useState<Date>(new Date(moment().format('L')));
-  const handleClose = () => setShow(false);
+  const handleClose = () => handleCloseTaskModal();
   const handleShow = () => setShow(true);
 
   const auth = useAuthHeader();
@@ -87,10 +89,7 @@ const AddTaskModal: React.FC<props> = () => {
 
   return (
     <>
-      <AddButton onClickHandler={handleShow} />
-      <AddButtonV2 />
-
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={showTaskModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add Task</Modal.Title>
         </Modal.Header>

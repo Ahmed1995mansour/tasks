@@ -43,7 +43,7 @@ export const getTasks = async (config: any) => {
 };
 
 export const getTasksByDate = async (config: any, date: any) => {
-  return await axios.get(`${SERVER}/api/tasks/${date}`, config);
+  return await axios.get(`${SERVER}/api/tasks/tasksbydate/${date}`, config);
 };
 
 export const markTaskComletede = async ({ config, taskId, done }: any) => {
@@ -52,4 +52,8 @@ export const markTaskComletede = async ({ config, taskId, done }: any) => {
 
 export const getAllTasksPercentage = async (config: any) => {
   return await axios.get(`${SERVER}/api/tasks/percentage`, config);
+};
+
+export const getTaskById = async (config: any, taskId: any) => {
+  return await axios.get(`${SERVER}/api/tasks/${taskId}`, config);
 };

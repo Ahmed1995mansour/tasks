@@ -4,6 +4,7 @@ import { useAuthHeader } from 'react-auth-kit';
 import { useQuery } from 'react-query';
 import { getAllTasksPercentage, getTasksByDate } from '../../apis/apis';
 import AddGoalModal from '../../components/add-goal-modal/AddGoalModal.component';
+import AddModal from '../../components/add-modal/AddModal';
 import AddTaskModal from '../../components/add-task-modal/AddTaskModal.component';
 import FilterBar from '../../components/filter-bar/FilterBar.component';
 import ProgressBar from '../../components/progress-bar/ProgressBar.component';
@@ -54,7 +55,7 @@ const Home: React.FC<props> = ({}) => {
           <p>There are no tasks in this day</p>
         )}
       </div>
-      <AddTaskModal />
+      <AddModal />
 
       {/* <AddGoalModal /> */}
     </div>

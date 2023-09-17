@@ -9,7 +9,12 @@ import { toast } from 'react-toastify';
 import { addGoal } from '../../apis/apis';
 import './add-goal-modal.styles.scss';
 
-function AddGoalModal() {
+type Props = {
+  showGoalModal: boolean;
+  handleCloseGoalModal: Function;
+};
+
+const AddGoalModal: React.FC<Props> = ({ showGoalModal, handleCloseGoalModal }) => {
   const queryClient = useQueryClient();
   const mutation = useMutation(addGoal, {
     onSuccess: value => {
@@ -28,7 +33,7 @@ function AddGoalModal() {
   const [show, setShow] = useState(false);
   const [goalTitle, setGoalTitle] = useState('');
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => handleCloseGoalModal();
   const handleShow = () => {
     setShow(true);
     setGoalTitle('');
@@ -52,11 +57,7 @@ function AddGoalModal() {
 
   return (
     <>
-      <Button className="add-goal-button" variant="primary" onClick={handleShow}>
-        Add Goal
-      </Button>
-
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={showGoalModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add Goal</Modal.Title>
         </Modal.Header>
@@ -84,6 +85,6 @@ function AddGoalModal() {
       </Modal>
     </>
   );
-}
+};
 
 export default AddGoalModal;

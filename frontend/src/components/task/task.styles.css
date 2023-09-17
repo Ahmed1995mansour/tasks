@@ -1,39 +1,55 @@
 
 .checkbox {
-    transform: scale(2);
+    transform: scale(1.5);
     margin-right: 11px;
   }
 
   .task  {
-    width:40%;
+    width:30%;
 }
 
   .task .task-controls {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content:space-between;
+  }
+
+  .task .task-title {
+    display: flex;
+    align-items: baseline;
   }
   
-.task  .task-parents{
+.task  .task-info{
     text-align: left;
   }
 
-  .task .card-body {
+  .task .task-info .task-title h5 {
+    color: #242424;
+  }
+
+.task .card-body {
     display: flex;
     justify-content: space-between;
   }
 
-  .task .task-actions {
+.task .task-actions {
     display: flex;
    align-items: self-end;
+}
+.task .goal-title p {
+  margin-bottom: 0 !important;
 }
 
 .task .task-actions .btn {
     margin-right: 10px;
 }
   
-.bg-success .goal-title {
+.bg-success .goal-title p {
   color: #DEDEDE;
+}
+
+.bg-success .task-info .task-title h5 {
+  color: #FFF;
 }
 
 .bg-uncomplete {
@@ -41,12 +57,18 @@
   color: #000;
 }
 
-.bg-uncomplete .goal-title {
+.bg-uncomplete .goal-title p {
   color: #757575;
 }
 
 @media (max-width: 1200px) {
   .task {
-      width: 100%;
+      width: 45%;
   }
+}
+
+@media (max-width : 766px) {
+  .task {
+    width: 100%;
+}
 }

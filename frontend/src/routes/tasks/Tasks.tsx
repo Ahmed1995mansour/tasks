@@ -1,6 +1,7 @@
 import { useAuthHeader } from 'react-auth-kit';
 import { useQuery } from 'react-query';
 import { getTasks } from '../../apis/apis';
+import AddModal from '../../components/add-modal/AddModal';
 import AddTaskModal from '../../components/add-task-modal/AddTaskModal.component';
 import FilterHeader from '../../components/filter-header/FilterHeader.component';
 import Message from '../../components/message/Message.component';
@@ -37,7 +38,7 @@ const Tasks = () => {
           <Task key={task._id} task={task} />
         ))}
       </div>
-      <AddTaskModal />
+      <AddModal />
     </div>
   );
 };

@@ -1,12 +1,12 @@
 import './add-button-v2.scss';
 
-const AddButtonV2 = () => {
+const AddButtonV2 = ({ onAddTaskHandler, onAddGoalHandler }: any) => {
   return (
     <div>
       <div id="container-floating">
         <div className="nd3 nds">
           <div className="btn-container">
-            <button className="cta">
+            <button className="cta" onClick={onAddGoalHandler}>
               <span className="letter">G</span>
               <span className="button-text">Add Goal</span>
             </button>
@@ -15,7 +15,7 @@ const AddButtonV2 = () => {
 
         <div className="nd1 nds">
           <div className="btn-container">
-            <button className="cta">
+            <button className="cta" onClick={onAddTaskHandler}>
               <span className="letter">T</span>
               <span className="button-text">Add Task</span>
             </button>
