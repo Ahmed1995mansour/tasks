@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import Header from './components/navbar/Header.component';
 import Account from './routes/account/Account';
+import GoalPage from './routes/goal-page/GoalPage';
 import Goals from './routes/goals/Goals';
 import Home from './routes/home-page/Home';
 import Login from './routes/login/Login';
@@ -67,6 +68,14 @@ function App() {
             element={
               <RequireAuth loginPath="/login">
                 <TaskPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/goals/:goalId"
+            element={
+              <RequireAuth loginPath="/login">
+                <GoalPage />
               </RequireAuth>
             }
           />

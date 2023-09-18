@@ -4,6 +4,8 @@ import {
   completeTask,
   deleteTask,
   getCompletedTasksPercentage,
+  getCompletedTasksPercentagePerGoal,
+  getTaskByGoal,
   getTaskById,
   getTasks,
   getTasksbyDate,
@@ -15,4 +17,6 @@ router.route('/').post(addTask).get(getTasks);
 router.route('/percentage').get(getCompletedTasksPercentage);
 router.route('/:id').put(completeTask).delete(deleteTask).get(getTaskById);
 router.route('/tasksbydate/:date').get(getTasksbyDate);
+router.route('/goalpercentage/:goalId').get(getCompletedTasksPercentagePerGoal);
+router.route(`/tasksbygoal/:goalId`).get(getTaskByGoal);
 export default router;

@@ -32,7 +32,7 @@ const Goal: FC<props> = ({ goal }) => {
             With supporting text below as a natural lead-in to additional content.
           </p>
           <div className="actions-container">
-            <Link className="btn btn-primary" to="/">
+            <Link className="btn btn-primary" to={`/goals/${goal._id}`}>
               View
             </Link>
             <Link className="btn btn-secondary" to="/">

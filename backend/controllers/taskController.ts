@@ -30,14 +30,14 @@ const addTask = asyncHandler(async (req, res) => {
 // @acess  Private
 
 const deleteTask = asyncHandler(async (req, res) => {
-  const { taskId } = req.body;
+  const { id } = req.params;
   const { user } = req;
 
   if (!user) {
     res.status(401).send('Not Authorized');
   }
 
-  await Task.deleteOne(taskId);
+  await Task.deleteOne({ _id: id });
 
   res.sendStatus(200);
 });
@@ -116,21 +116,59 @@ const getCompletedTasksPercentage = asyncHandler(async (req, res) => {
   res.json((count / totalNumber) * 100);
 });
 
+// @desc   Get completed tasks percentage per goal
+// @route  GET /api/tasks/percentage
+// @access Private
+
+const getCompletedTasksPercentagePerGoal = asyncHandler(async (req, res) => {
+  let count = 0;
+  let totalNumber = 0;
+  const { user } = req;
+  const { goalId } = req.params;
+  if (!user) {
+    res.status(401).send('Not Authorized');
+  }
+
+  const tasks = await Task.find({ user: user._id, goal: goalId });
+  tasks.forEach((element: any) => {
+    totalNumber++;
+    if (element.done) {
+      count++;
+    }
+  });
+  res.json((count / totalNumber) * 100);
+});
+
 // @desc   Get task by id
 // @route  GET /api/tasks/:id
 // @access Private
 
 const getTaskById = asyncHandler(async (req, res) => {
-  const { user } = req;
   const { id } = req.params;
 
   const task = await Task.findById(id).populate('goal');
-  console.log(task);
+
   if (!task) {
     res.status(404).send('No Task with this Id found');
   }
 
   res.json(task);
+});
+
+// @desc   Get task by id
+// @route  GET /api/tasks/:id
+// @access Private
+
+const getTaskByGoal = asyncHandler(async (req, res) => {
+  const { goalId } = req.params;
+
+  const tasks = await Task.find({ goal: goalId }).populate('goal');
+
+  if (!tasks) {
+    res.status(404).send('No Tasks within this goal found');
+  }
+
+  res.json(tasks);
 });
 
 export {
@@ -141,4 +179,6 @@ export {
   getTasks,
   deleteTask,
   getTaskById,
+  getCompletedTasksPercentagePerGoal,
+  getTaskByGoal,
 };

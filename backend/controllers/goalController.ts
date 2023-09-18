@@ -1,4 +1,5 @@
 import asyncHandler from 'express-async-handler';
+import { json } from 'stream/consumers';
 import Goal from '../models/goalModel';
 
 // @desc   Add Goal
@@ -28,4 +29,17 @@ export const addGoal = asyncHandler(async (req, res) => {
 export const getGoals = asyncHandler(async (req, res) => {
   const goals = await Goal.find({ user: req.user });
   res.status(200).send(goals);
+});
+
+// @desc   Get Goal By Id
+// @route  GET
+// @access Private
+
+export const getGoalById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const goal = await Goal.findById(id);
+  if (!goal) {
+    res.status(404).send('No Goal with this Id found');
+  }
+  res.status(200).json(goal);
 });

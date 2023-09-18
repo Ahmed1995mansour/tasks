@@ -46,6 +46,10 @@ export const getTasksByDate = async (config: any, date: any) => {
   return await axios.get(`${SERVER}/api/tasks/tasksbydate/${date}`, config);
 };
 
+export const getTasksByGoal = async (config: any, goalId: any) => {
+  return await axios.get(`${SERVER}/api/tasks/tasksbygoal/${goalId}`, config);
+};
+
 export const markTaskComletede = async ({ config, taskId, done }: any) => {
   return await axios.put(`${SERVER}/api/tasks/${taskId}`, { done }, config);
 };
@@ -54,6 +58,14 @@ export const getAllTasksPercentage = async (config: any) => {
   return await axios.get(`${SERVER}/api/tasks/percentage`, config);
 };
 
+export const getGoalTasksPercentage = async (config: any, goalId: any) => {
+  return await axios.get(`${SERVER}/api/tasks/goalpercentage/${goalId}`, config);
+};
+
 export const getTaskById = async (config: any, taskId: any) => {
   return await axios.get(`${SERVER}/api/tasks/${taskId}`, config);
+};
+
+export const getGoalById = async (config: any, goalId: any) => {
+  return await axios.get(`${SERVER}/api/goal/${goalId}`, config);
 };
