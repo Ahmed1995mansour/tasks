@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { deleteTask, markTaskComletede } from '../../apis/apis';
 import ActionsMenu from '../actions-menu/ActionsMenu';
+import EditTaskModal from '../edit-task-modal/EditTaskModal.component';
 import './task.styles.css';
 
 type props = {
@@ -12,6 +13,7 @@ type props = {
     title: string;
     done: boolean;
     _id: string;
+    date: '';
     goal: { title: string; _id: string };
   };
 };
@@ -20,6 +22,9 @@ const Task: React.FC<props> = ({ task }) => {
   const queryClient = useQueryClient();
 
   const [taskDone, setTaskDone] = useState(task.done);
+  const [showEdit, setShowEdit] = useState(false);
+
+  const handleCloseEditTaskModal = () => setShowEdit(false);
 
   const config = {
     headers: {
@@ -71,6 +76,10 @@ const Task: React.FC<props> = ({ task }) => {
     });
   };
 
+  const onTaskEdit = () => {
+    setShowEdit(true);
+  };
+
   return (
     <div
       id={task._id}
@@ -99,9 +108,18 @@ const Task: React.FC<props> = ({ task }) => {
           </div>
         </div>
         <div className="task-controls">
-          <ActionsMenu taskId={task._id} onTaskDelete={() => deleteTaskHandler(task._id)} />
+          <ActionsMenu
+            taskId={task._id}
+            onTaskDelete={() => deleteTaskHandler(task._id)}
+            onTaskEdit={onTaskEdit}
+          />
         </div>
       </div>
+      <EditTaskModal
+        showTaskModal={showEdit}
+        handleCloseTaskModal={handleCloseEditTaskModal}
+        task={task}
+      />
     </div>
   );
 };

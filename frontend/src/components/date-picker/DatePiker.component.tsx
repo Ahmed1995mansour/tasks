@@ -5,8 +5,8 @@ import { DayPicker } from 'react-day-picker';
 import { usePopper } from 'react-popper';
 import './date-piker.styles.css';
 
-export default function DatePiker({ handleSelectDate }: any) {
-  const [selected, setSelected] = useState<Date>();
+export default function DatePiker({ handleSelectDate, initialDate }: any) {
+  const [selected, setSelected] = useState<Date>(initialDate);
   const [inputValue, setInputValue] = useState<string>('');
   const [isPopperOpen, setIsPopperOpen] = useState(false);
 
@@ -30,7 +30,7 @@ export default function DatePiker({ handleSelectDate }: any) {
     if (isValid(date)) {
       setSelected(date);
     } else {
-      setSelected(undefined);
+      setSelected(new Date());
     }
   };
 
@@ -55,7 +55,9 @@ export default function DatePiker({ handleSelectDate }: any) {
       <div ref={popperRef}>
         <input
           type="text"
-          placeholder={format(new Date(), 'y-MM-dd')}
+          placeholder={
+            initialDate ? format(new Date(initialDate), 'y-MM-dd') : format(new Date(), 'y-MM-dd')
+          }
           value={inputValue}
           onChange={handleInputChange}
           className="input-reset pa2 ma2 bg-white black ba"

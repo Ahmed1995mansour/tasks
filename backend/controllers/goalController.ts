@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import { json } from 'stream/consumers';
 import Goal from '../models/goalModel';
+import Task from '../models/taskModel';
 
 // @desc   Add Goal
 // @route  POST
@@ -42,4 +43,23 @@ export const getGoalById = asyncHandler(async (req, res) => {
     res.status(404).send('No Goal with this Id found');
   }
   res.status(200).json(goal);
+});
+
+// @desc   Delete Goal By Id
+// @route  DELETE
+// @access Private
+
+export const deleteGoalById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const goal = await Goal.findById(id);
+  if (!goal) {
+    res.status(404).send('No Goal with this Id found');
+  }
+
+  // Delete all tasks associated with that goal
+  await Task.deleteMany({ goal: id });
+
+  await Goal.deleteOne({ _id: id });
+
+  res.sendStatus(200);
 });

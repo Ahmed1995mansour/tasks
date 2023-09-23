@@ -1,0 +1,15 @@
+.modal-dialog {
+    -webkit-transform: translate(0,-50%);
+    -o-transform: translate(0,-50%);
+    transform: translate(0,-50%);
+    top: 25%;
+    margin: 0 auto;
+}
+
+.input-task-title {
+    text-align: center;
+}
+
+.select-goal, .select-category {
+    margin-bottom: 20px;
+}

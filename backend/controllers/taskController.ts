@@ -25,6 +25,34 @@ const addTask = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc   Update existing task
+// @route  PUT /api/tasks
+// @acess  Private
+
+const updateTask = asyncHandler(async (req, res) => {
+  const { title, goal, date } = req.body;
+  const convertedDate = new Date(date);
+  const { id } = req.params;
+
+  const task = await Task.findById(id);
+  console.log(task);
+
+  if (task) {
+    // task.title = title;
+    // task.goal = goal;
+    // task.date = convertedDate;
+    const updatedTask = await Task.findByIdAndUpdate(id, {
+      goal: goal,
+      date: convertedDate,
+      title: title,
+    });
+    res.json(updatedTask);
+  } else {
+    res.status(404);
+    throw new Error('Task Not Found');
+  }
+});
+
 // @desc   delete existing task
 // @route  DELETE /api/tasks
 // @acess  Private
@@ -181,4 +209,5 @@ export {
   getTaskById,
   getCompletedTasksPercentagePerGoal,
   getTaskByGoal,
+  updateTask,
 };

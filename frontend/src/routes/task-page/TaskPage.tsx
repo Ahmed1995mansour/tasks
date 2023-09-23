@@ -108,7 +108,7 @@ const TaskPage = () => {
                   onChange={changeTaskStatusHandler}
                 />
                 <h3 className="card-title">{taskData.title}</h3>
-                <ActionsMenu taskId={taskData._id} onTaskDelete={() => {}} />
+                <ActionsMenu taskId={taskData._id} onTaskDelete={() => {}} onTaskEdit={() => {}} />
               </div>
               <Link to={`/goals/${taskData.goal._id}`}>
                 <p className="task-goal">{taskData.goal.title}</p>

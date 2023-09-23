@@ -8,13 +8,14 @@ import './actions-menu.scss';
 type Props = {
   onTaskDelete: Function;
   taskId: string;
+  onTaskEdit: Function;
 };
 
 const KEY_TO_DELETE = 'DELETE';
 const KEY_TO_EDIT = 'EDIT';
 const KEY_TO_VIEW = 'VIEW';
 
-const ActionsMenu: React.FC<Props> = ({ onTaskDelete, taskId }) => {
+const ActionsMenu: React.FC<Props> = ({ onTaskDelete, taskId, onTaskEdit }) => {
   const navigate = useNavigate();
   const handleMenuClick: MenuProps['onClick'] = e => {
     switch (e.key) {
@@ -37,7 +38,7 @@ const ActionsMenu: React.FC<Props> = ({ onTaskDelete, taskId }) => {
         break;
 
       case KEY_TO_EDIT:
-        message.info('Edit Task', 55550);
+        onTaskEdit();
         break;
 
       default:

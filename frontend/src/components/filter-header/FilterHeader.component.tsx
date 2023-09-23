@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Select from 'react-select';
 import './filter-header.styles.scss';
 
-const FilterHeader = () => {
+const FilterHeader = ({ onChangeHandler }: any) => {
   const [selectedOption, setSelectedOption] = useState(null);
 
   const selectOptions = [
@@ -20,7 +20,12 @@ const FilterHeader = () => {
   return (
     <div className="filter-header container">
       <div className="search-bar">
-        <input className="search" type="search" placeholder="Search..." />
+        <input
+          className="search"
+          onChange={onChangeHandler}
+          type="search"
+          placeholder="Search..."
+        />
       </div>
 
       <div className="select">

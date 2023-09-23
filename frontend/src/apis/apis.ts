@@ -34,6 +34,10 @@ export const addTask = async ({ task, config }: any) => {
   return await axios.post(`${SERVER}/api/tasks`, task, config);
 };
 
+export const updateTask = async ({ updatedTask, config }: any) => {
+  return await axios.put(`${SERVER}/api/tasks/update/${updatedTask._id}`, updatedTask, config);
+};
+
 export const deleteTask = async ({ taskId, config }: any) => {
   return await axios.delete(`${SERVER}/api/tasks/${taskId}`, config);
 };
@@ -68,4 +72,8 @@ export const getTaskById = async (config: any, taskId: any) => {
 
 export const getGoalById = async (config: any, goalId: any) => {
   return await axios.get(`${SERVER}/api/goal/${goalId}`, config);
+};
+
+export const deleteGoalById = async ({ config, goalId }: any) => {
+  return await axios.delete(`${SERVER}/api/goal/${goalId}`, config);
 };
