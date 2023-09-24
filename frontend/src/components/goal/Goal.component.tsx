@@ -1,11 +1,14 @@
 import { DeleteOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
+import { useState } from 'react';
 import { FC } from 'react';
 import { useAuthHeader } from 'react-auth-kit';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { getGoalTasksPercentage } from '../../apis/apis';
 import { deleteGoalById } from '../../apis/apis';
+import ProgressBar from '../progress-bar/ProgressBar.component';
 import './goal.styles.scss';
 
 type GoalT = {
@@ -23,12 +26,25 @@ const Goal: FC<props> = ({ goal }) => {
   const auth = useAuthHeader();
   const queryClient = useQueryClient();
 
+  const [completed, setCompleted] = useState(0);
+
   const config = {
     headers: {
       'Content-Type': 'application/json',
       Authorization: auth(),
     },
   };
+
+  const { data: goalTasksPercentageData } = useQuery(
+    ['percentage', goalId],
+    () => getGoalTasksPercentage(config, goalId),
+    {
+      refetchOnWindowFocus: false,
+      onSuccess: (data: any) => {
+        setCompleted(data.data);
+      },
+    }
+  );
 
   const deleteGoalMutation = useMutation(deleteGoalById, {
     onSuccess: (data: any) => {
@@ -58,12 +74,10 @@ const Goal: FC<props> = ({ goal }) => {
     <div key={goal._id} className="goal-container container mb-3">
       <div className="card text-center">
         <div className="card-header">{goal.title}</div>
+        <ProgressBar completed={completed} background="#198754" height="10px" width="100%" />
+
         <div className="card-body">
-          <h5 className="card-title">Special title treatment</h5>
-          <p className="card-text">
-            With supporting text below as a natural lead-in to additional content.
-          </p>
-          <div className="actions-container">
+          <div className="actions-container mt-3">
             <Link className="btn btn-primary" to={`/goals/${goal._id}`}>
               View
             </Link>
@@ -77,30 +91,6 @@ const Goal: FC<props> = ({ goal }) => {
         </div>
         <div className="card-footer text-muted">2 days ago</div>
       </div>
-      {/* <MDBCard alignment="start">
-        <MDBCardHeader className="text-center goal-title">{goal.title}</MDBCardHeader>
-        <MDBCardBody>
-          <MDBCardTitle>Num of Categories: 15</MDBCardTitle>
-          <MDBCardTitle>Num of Tasks: 100</MDBCardTitle>
-          <MDBCardText>Progress:</MDBCardText>
-          <div className="actions-container">
-            <Link className="btn btn-primary" to="/">
-              View
-            </Link>
-            <Link className="btn btn-secondary" to="/">
-              Edit
-            </Link>
-            <button
-              onClick={() => {
-                alert('Are you sure ?');
-              }}
-              className="btn btn-danger"
-            >
-              Delete
-            </button>
-          </div>
-        </MDBCardBody>
-      </MDBCard> */}
     </div>
   );
 };
