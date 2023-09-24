@@ -41,7 +41,7 @@ const Goal: FC<props> = ({ goal }) => {
     {
       refetchOnWindowFocus: false,
       onSuccess: (data: any) => {
-        setCompleted(data.data);
+        setCompleted(Math.round(data.data));
       },
     }
   );

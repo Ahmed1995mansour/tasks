@@ -8,6 +8,7 @@ import {
   getTaskByGoal,
   getTaskById,
   getTasks,
+  getTasksCount,
   getTasksbyDate,
   updateTask,
 } from '../controllers/taskController';
@@ -15,6 +16,7 @@ import {
 const router = express.Router();
 
 router.route('/').post(addTask).get(getTasks);
+router.route('/count').get(getTasksCount);
 router.route('/percentage').get(getCompletedTasksPercentage);
 router.route('/:id').put(completeTask).delete(deleteTask).get(getTaskById).put(updateTask);
 router.route('/update/:id').put(updateTask);

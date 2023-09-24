@@ -42,8 +42,12 @@ export const deleteTask = async ({ taskId, config }: any) => {
   return await axios.delete(`${SERVER}/api/tasks/${taskId}`, config);
 };
 
-export const getTasks = async (config: any) => {
-  return await axios.get(`${SERVER}/api/tasks`, config);
+export const getTasks = async (config: any, page: number, pageSize: number) => {
+  return await axios.get(`${SERVER}/api/tasks/?page=${page}&pageSize=${pageSize}`, config);
+};
+
+export const getTasksCount = async (config: any) => {
+  return await axios.get(`${SERVER}/api/tasks/count`, config);
 };
 
 export const getTasksByDate = async (config: any, date: any) => {

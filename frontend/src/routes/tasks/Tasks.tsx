@@ -1,7 +1,9 @@
+import { ConfigProvider, Pagination } from 'antd';
 import { useState } from 'react';
 import { useAuthHeader } from 'react-auth-kit';
 import { useQuery } from 'react-query';
-import { getTasks } from '../../apis/apis';
+import { components } from 'react-select';
+import { getTasks, getTasksCount } from '../../apis/apis';
 import AddModal from '../../components/add-modal/AddModal';
 import FilterHeader from '../../components/filter-header/FilterHeader.component';
 import Message from '../../components/message/Message.component';
@@ -12,15 +14,26 @@ import './tasks.styles.scss';
 const Tasks = () => {
   const authHeader = useAuthHeader();
   const [search, setSearch] = useState('');
+  const [count, setCount] = useState(0);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(12);
+
   const config = {
     headers: {
       'Content-Type': 'application/json',
       Authorization: authHeader(),
     },
   };
+
+  const { data: tasksCountData } = useQuery('tasks-count', () => getTasksCount(config), {
+    refetchOnWindowFocus: false,
+    onSuccess: (data: any) => {
+      setCount(data.data);
+    },
+  });
   const { data, error, isLoading, isFetching, isError } = useQuery(
-    'tasks',
-    () => getTasks(config),
+    ['tasks', page],
+    () => getTasks(config, page - 1, pageSize),
     {
       refetchOnWindowFocus: false,
     }
@@ -49,6 +62,35 @@ const Tasks = () => {
             <Task key={task._id} task={task} />
           ))}
       </div>
+
+      <div className="pagination-wrapper container">
+        <div className="pagination-container">
+          <ConfigProvider
+            theme={{
+              components: {
+                Pagination: {
+                  itemActiveBgDisabled: '#3b71ca',
+                  itemSize: 38,
+                  fontSize: 16,
+                },
+              },
+            }}
+          >
+            <Pagination
+              onChange={(page, pageSize) => {
+                setPage(page);
+                setPageSize(pageSize);
+              }}
+              defaultCurrent={1}
+              current={page}
+              total={count}
+              defaultPageSize={pageSize}
+              hideOnSinglePage
+            />
+          </ConfigProvider>
+        </div>
+      </div>
+
       <AddModal />
     </div>
   );

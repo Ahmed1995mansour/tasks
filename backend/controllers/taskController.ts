@@ -75,13 +75,18 @@ const deleteTask = asyncHandler(async (req, res) => {
 // @access Private
 
 const getTasks = asyncHandler(async (req, res) => {
+  const { page = 0, pageSize = 12 }: any = req.query;
+  console.log(pageSize);
   const { user } = req;
 
   if (!user) {
     res.status(401).send('Not Authorized');
   }
 
-  const tasks = await Task.find({ user: user._id }).populate('goal');
+  const tasks = await Task.find({ user: user._id }, null, {
+    skip: parseInt(page) * pageSize,
+    limit: pageSize,
+  }).populate('goal');
 
   if (!tasks) {
     res.status(404).send('No task found');
@@ -90,9 +95,25 @@ const getTasks = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc   Get total number of tasks
+// @route  GET /api/tasks/count
+// @access Private
+
+const getTasksCount = asyncHandler(async (req, res) => {
+  const { user } = req;
+
+  if (!user) {
+    res.status(401).send('Not Authorized');
+  }
+
+  const tasksCount = await Task.count({ user: user._id });
+
+  res.status(200).json(tasksCount);
+});
+
 // @desc   Fetch tasks of certain date
 // @route  GET /api/tasks
-// @access Public
+// @access Private
 
 const getTasksbyDate = asyncHandler(async (req, res) => {
   const date = new Date(req.params.date);
@@ -210,4 +231,5 @@ export {
   getCompletedTasksPercentagePerGoal,
   getTaskByGoal,
   updateTask,
+  getTasksCount,
 };
