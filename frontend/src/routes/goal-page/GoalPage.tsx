@@ -3,6 +3,8 @@ import { useAuthHeader } from 'react-auth-kit';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { getGoalById, getGoalTasksPercentage, getTasksByGoal } from '../../apis/apis';
+import AddTaskButton from '../../components/add-task-button/AddTaskButton.component';
+import AddTaskModal from '../../components/add-task-modal/AddTaskModal.component';
 import FilterHeader from '../../components/filter-header/FilterHeader.component';
 import ProgressBar from '../../components/progress-bar/ProgressBar.component';
 import Task from '../../components/task/Task.compoennt';
@@ -18,6 +20,11 @@ const GoalPage = () => {
   const [completed, setCompleted] = useState(0);
   const [tasks, setTasks] = useState([]);
   const { goalId } = useParams();
+
+  const [showTaskModal, setShowTaskModal] = useState(false);
+  const handleShowTaskModal = () => setShowTaskModal(true);
+  const handleCloseTaskModal = () => setShowTaskModal(false);
+
   const authHeader = useAuthHeader();
 
   const config = {
@@ -86,6 +93,13 @@ const GoalPage = () => {
           )}
         </div>
       </div>
+      <AddTaskButton onClickHandler={handleShowTaskModal} />
+      <AddTaskModal
+        goalId={goalData._id}
+        goalTitle={goalData.title}
+        showTaskModal={showTaskModal}
+        handleCloseTaskModal={handleCloseTaskModal}
+      />
     </div>
   );
 };

@@ -19,13 +19,21 @@ type GoalStateT = {
 type Props = {
   showTaskModal: boolean;
   handleCloseTaskModal: Function;
+  goalId?: string;
+  goalTitle?: string;
 };
 
-const AddTaskModal: React.FC<Props> = ({ showTaskModal, handleCloseTaskModal }) => {
+const AddTaskModal: React.FC<Props> = ({
+  showTaskModal,
+  handleCloseTaskModal,
+  goalId,
+  goalTitle,
+}) => {
+  const defaultGoal = { label: goalTitle || '', value: goalId || '' };
   const [show, setShow] = useState(false);
   const [taskTitle, setTaskTitle] = useState('');
   const [goals, setGoals] = useState();
-  const [goal, setGoal] = useState<GoalStateT>();
+  const [goal, setGoal] = useState<GoalStateT>(defaultGoal);
   const [date, setDate] = useState<Date>(new Date(moment().format('L')));
   const handleClose = () => handleCloseTaskModal();
   const handleShow = () => setShow(true);
