@@ -114,6 +114,25 @@ const getTasksCount = asyncHandler(async (req, res) => {
   res.status(200).json(tasksCount);
 });
 
+// @desc   Get total number of tasks per goal
+// @route  GET /api/tasks/countpergoal/:goalId
+// @access Private
+
+const getTasksCountPerGoal = asyncHandler(async (req, res) => {
+  const { user } = req;
+  const { goalId } = req.params;
+  const { q }: any = req.query;
+  const query = new RegExp(q, 'i');
+
+  if (!user) {
+    res.status(401).send('Not Authorized');
+  }
+
+  const tasksCount = await Task.count({ user: user._id, goal: goalId, title: query });
+
+  res.status(200).json(tasksCount);
+});
+
 // @desc   Fetch tasks of certain date
 // @route  GET /api/tasks
 // @access Private
@@ -212,15 +231,25 @@ const getTaskById = asyncHandler(async (req, res) => {
 // @access Private
 
 const getTaskByGoal = asyncHandler(async (req, res) => {
+  const { page = 0, pageSize = 12, q }: any = req.query;
   const { goalId } = req.params;
+  const query = new RegExp(q, 'i');
+  const { user } = req;
 
-  const tasks = await Task.find({ goal: goalId }).populate('goal');
-
-  if (!tasks) {
-    res.status(404).send('No Tasks within this goal found');
+  if (!user) {
+    res.status(401).send('Not Authorized');
   }
 
-  res.json(tasks);
+  const tasks = await Task.find({ user: user._id, goal: goalId, title: query }, null, {
+    skip: parseInt(page) * pageSize,
+    limit: pageSize,
+  }).populate('goal');
+
+  if (!tasks) {
+    res.status(404).send('No task found');
+  } else {
+    res.status(200).json(tasks);
+  }
 });
 
 export {
@@ -235,4 +264,5 @@ export {
   getTaskByGoal,
   updateTask,
   getTasksCount,
+  getTasksCountPerGoal,
 };

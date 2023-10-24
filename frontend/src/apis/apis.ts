@@ -53,12 +53,25 @@ export const getTasksCount = async (config: any, query: string) => {
   return await axios.get(`${SERVER}/api/tasks/count/?q=${query}`, config);
 };
 
+export const getTasksCountPerGoal = async (config: any, query: string, goalId: any) => {
+  return await axios.get(`${SERVER}/api/tasks/countpergoal/${goalId}/?q=${query}`, config);
+};
+
 export const getTasksByDate = async (config: any, date: any) => {
   return await axios.get(`${SERVER}/api/tasks/tasksbydate/${date}`, config);
 };
 
-export const getTasksByGoal = async (config: any, goalId: any) => {
-  return await axios.get(`${SERVER}/api/tasks/tasksbygoal/${goalId}`, config);
+export const getTasksByGoal = async (
+  config: any,
+  goalId: any,
+  query: string,
+  page: number,
+  pageSize: number
+) => {
+  return await axios.get(
+    `${SERVER}/api/tasks/tasksbygoal/${goalId}/?q=${query}&page=${page}&pageSize=${pageSize}`,
+    config
+  );
 };
 
 export const markTaskComletede = async ({ config, taskId, done }: any) => {
