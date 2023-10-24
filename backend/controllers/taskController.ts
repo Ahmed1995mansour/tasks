@@ -75,15 +75,16 @@ const deleteTask = asyncHandler(async (req, res) => {
 // @access Private
 
 const getTasks = asyncHandler(async (req, res) => {
-  const { page = 0, pageSize = 12 }: any = req.query;
-  console.log(pageSize);
+  const { page = 0, pageSize = 12, q }: any = req.query;
+
+  const query = new RegExp(q, 'i');
   const { user } = req;
 
   if (!user) {
     res.status(401).send('Not Authorized');
   }
 
-  const tasks = await Task.find({ user: user._id }, null, {
+  const tasks = await Task.find({ user: user._id, title: query }, null, {
     skip: parseInt(page) * pageSize,
     limit: pageSize,
   }).populate('goal');
@@ -101,12 +102,14 @@ const getTasks = asyncHandler(async (req, res) => {
 
 const getTasksCount = asyncHandler(async (req, res) => {
   const { user } = req;
+  const { q }: any = req.query;
+  const query = new RegExp(q, 'i');
 
   if (!user) {
     res.status(401).send('Not Authorized');
   }
 
-  const tasksCount = await Task.count({ user: user._id });
+  const tasksCount = await Task.count({ user: user._id, title: query });
 
   res.status(200).json(tasksCount);
 });

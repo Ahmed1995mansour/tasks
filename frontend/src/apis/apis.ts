@@ -42,12 +42,15 @@ export const deleteTask = async ({ taskId, config }: any) => {
   return await axios.delete(`${SERVER}/api/tasks/${taskId}`, config);
 };
 
-export const getTasks = async (config: any, page: number, pageSize: number) => {
-  return await axios.get(`${SERVER}/api/tasks/?page=${page}&pageSize=${pageSize}`, config);
+export const getTasks = async (config: any, query: string, page: number, pageSize: number) => {
+  return await axios.get(
+    `${SERVER}/api/tasks/?q=${query}&page=${page}&pageSize=${pageSize}`,
+    config
+  );
 };
 
-export const getTasksCount = async (config: any) => {
-  return await axios.get(`${SERVER}/api/tasks/count`, config);
+export const getTasksCount = async (config: any, query: string) => {
+  return await axios.get(`${SERVER}/api/tasks/count/?q=${query}`, config);
 };
 
 export const getTasksByDate = async (config: any, date: any) => {
