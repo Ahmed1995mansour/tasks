@@ -4,6 +4,7 @@ import {
   completeTask,
   deleteTask,
   getCompletedTasksPercentage,
+  getCompletedTasksPercentageByDate,
   getCompletedTasksPercentagePerGoal,
   getTaskByGoal,
   getTaskById,
@@ -19,6 +20,7 @@ const router = express.Router();
 router.route('/').post(addTask).get(getTasks);
 router.route('/count').get(getTasksCount);
 router.route('/percentage').get(getCompletedTasksPercentage);
+router.route('/percentage/:date').get(getCompletedTasksPercentageByDate);
 router.route('/:id').put(completeTask).delete(deleteTask).get(getTaskById).put(updateTask);
 router.route('/update/:id').put(updateTask);
 router.route('/tasksbydate/:date').get(getTasksbyDate);

@@ -81,6 +81,9 @@ export const markTaskComletede = async ({ config, taskId, done }: any) => {
 export const getAllTasksPercentage = async (config: any) => {
   return await axios.get(`${SERVER}/api/tasks/percentage`, config);
 };
+export const getAllTasksPercentageByDate = async (config: any, date: any) => {
+  return await axios.get(`${SERVER}/api/tasks/percentage/${date}`, config);
+};
 
 export const getGoalTasksPercentage = async (config: any, goalId: any) => {
   return await axios.get(`${SERVER}/api/tasks/goalpercentage/${goalId}`, config);

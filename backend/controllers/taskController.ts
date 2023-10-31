@@ -192,6 +192,29 @@ const getCompletedTasksPercentage = asyncHandler(async (req, res) => {
   res.json((count / totalNumber) * 100);
 });
 
+// @desc   Get completed tasks percentage by date
+// @route  GET /api/tasks/percentage/:date
+// @access Private
+
+const getCompletedTasksPercentageByDate = asyncHandler(async (req, res) => {
+  let count = 0;
+  let totalNumber = 0;
+  const { date } = req.params;
+  const { user } = req;
+  if (!user) {
+    res.status(401).send('Not Authorized');
+  }
+
+  const tasks = await Task.find({ user: user._id, date });
+  tasks.forEach((element: any) => {
+    totalNumber++;
+    if (element.done) {
+      count++;
+    }
+  });
+  res.json((count / totalNumber) * 100);
+});
+
 // @desc   Get completed tasks percentage per goal
 // @route  GET /api/tasks/percentage
 // @access Private
@@ -262,6 +285,7 @@ export {
   getTasksbyDate,
   completeTask,
   getCompletedTasksPercentage,
+  getCompletedTasksPercentageByDate,
   getTasks,
   deleteTask,
   getTaskById,
