@@ -140,15 +140,20 @@ const getTasksCountPerGoal = asyncHandler(async (req, res) => {
 const getTasksbyDate = asyncHandler(async (req, res) => {
   const date = new Date(req.params.date);
   const { user } = req;
+  const { filter } = req.query;
 
   if (!user) {
     res.status(401).send('Not Authorized');
   }
-  const tasks = await Task.find({ user: user._id, date }).populate('goal');
 
-  if (!tasks) {
-    res.status(404).send('No task found');
+  if (filter === 'pending') {
+    const tasks = await Task.find({ user: user._id, date, done: false }).populate('goal');
+    res.status(200).json(tasks);
+  } else if (filter === 'done') {
+    const tasks = await Task.find({ user: user._id, date, done: true }).populate('goal');
+    res.status(200).json(tasks);
   } else {
+    const tasks = await Task.find({ user: user._id, date }).populate('goal');
     res.status(200).json(tasks);
   }
 });

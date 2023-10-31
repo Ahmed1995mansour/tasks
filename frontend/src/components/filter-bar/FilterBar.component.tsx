@@ -8,23 +8,24 @@ import './filter-bar.styles.css';
 
 type props = {
   selectDateFilter: Function;
+  onSelectOption: Function;
 };
-const FilterBar: React.FC<props> = ({ selectDateFilter }) => {
+const FilterBar: React.FC<props> = ({ selectDateFilter, onSelectOption }) => {
   const date = new Date();
   const [selected, setSelected] = useState<Date>(date);
   const [selectedOption, setSelectedOption] = useState(null);
 
   const options = [
     {
-      value: 'All',
+      value: 'all',
       label: 'All',
     },
     {
-      value: 'Done',
+      value: 'done',
       label: 'Done',
     },
     {
-      value: 'Pending',
+      value: 'pending',
       label: 'Pending',
     },
   ];
@@ -36,6 +37,7 @@ const FilterBar: React.FC<props> = ({ selectDateFilter }) => {
 
   const onselectChange = (option: any) => {
     setSelectedOption(option.value);
+    onSelectOption(option.value);
   };
 
   const onSelectDate = (date: any) => {

@@ -57,8 +57,8 @@ export const getTasksCountPerGoal = async (config: any, query: string, goalId: a
   return await axios.get(`${SERVER}/api/tasks/countpergoal/${goalId}/?q=${query}`, config);
 };
 
-export const getTasksByDate = async (config: any, date: any) => {
-  return await axios.get(`${SERVER}/api/tasks/tasksbydate/${date}`, config);
+export const getTasksByDate = async (config: any, date: any, filter: string) => {
+  return await axios.get(`${SERVER}/api/tasks/tasksbydate/${date}/?filter=${filter}`, config);
 };
 
 export const getTasksByGoal = async (
