@@ -57,8 +57,30 @@ export const getTasksCountPerGoal = async (config: any, query: string, goalId: a
   return await axios.get(`${SERVER}/api/tasks/countpergoal/${goalId}/?q=${query}`, config);
 };
 
-export const getTasksByDate = async (config: any, date: any, filter: string) => {
-  return await axios.get(`${SERVER}/api/tasks/tasksbydate/${date}/?filter=${filter}`, config);
+export const getTasksCountPerDay = async (
+  config: any,
+  date: any,
+  filter: string,
+  query: string
+) => {
+  return await axios.get(
+    `${SERVER}/api/tasks/countperday/${date}/?q=${query}&filter=${filter}`,
+    config
+  );
+};
+
+export const getTasksByDate = async (
+  config: any,
+  date: any,
+  filter: string,
+  query: string,
+  page: number,
+  pageSize: number
+) => {
+  return await axios.get(
+    `${SERVER}/api/tasks/tasksbydate/${date}/?filter=${filter}&q=${query}&page=${page}&pageSize=${pageSize}`,
+    config
+  );
 };
 
 export const getTasksByGoal = async (

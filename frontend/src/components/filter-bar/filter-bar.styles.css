@@ -6,3 +6,24 @@
 .select {
     width: 30%
 }
+
+.filter-bar .search-bar {
+    flex-grow: 3;
+    
+}
+
+.filter-bar .search-bar .search {
+    width: 60%;
+    padding: 8px 12px;
+    font-size: 16px;
+    outline: none !important;
+    border: 1px solid #EFEFEF;
+    border-radius: 10px;
+}
+
+
+@media (max-width: 992px) {
+    .filter-bar .search-bar .search {
+        width: 100%
+    }
+}

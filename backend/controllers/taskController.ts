@@ -134,27 +134,64 @@ const getTasksCountPerGoal = asyncHandler(async (req, res) => {
   res.status(200).json(tasksCount);
 });
 
+// @desc   Get total number of tasks per goal
+// @route  GET /api/tasks/countpergoal/:goalId
+// @access Private
+
+const getTasksCountPerDay = asyncHandler(async (req, res) => {
+  const { user } = req;
+  const date = new Date(req.params.date);
+  const { q, filter }: any = req.query;
+
+  const query = new RegExp(q, 'i');
+
+  if (!user) {
+    res.status(401).send('Not Authorized');
+  }
+  if (filter === 'pending') {
+    const tasksCount = await Task.count({ user: user._id, date, title: query, done: false });
+    res.status(200).json(tasksCount);
+  } else if (filter === 'done') {
+    const tasksCount = await Task.count({ user: user._id, date, title: query, done: true });
+    res.status(200).json(tasksCount);
+  } else {
+    const tasksCount = await Task.count({ user: user._id, date, title: query });
+    res.status(200).json(tasksCount);
+  }
+});
+
 // @desc   Fetch tasks of certain date
 // @route  GET /api/tasks
 // @access Private
 
 const getTasksbyDate = asyncHandler(async (req, res) => {
   const date = new Date(req.params.date);
+
   const { user } = req;
-  const { filter } = req.query;
+  const { q, filter, page = 0, pageSize = 12 }: any = req.query;
+  const query = new RegExp(q, 'i');
 
   if (!user) {
     res.status(401).send('Not Authorized');
   }
 
   if (filter === 'pending') {
-    const tasks = await Task.find({ user: user._id, date, done: false }).populate('goal');
+    const tasks = await Task.find({ user: user._id, date, title: query, done: false }, null, {
+      skip: parseInt(page) * pageSize,
+      limit: pageSize,
+    }).populate('goal');
     res.status(200).json(tasks);
   } else if (filter === 'done') {
-    const tasks = await Task.find({ user: user._id, date, done: true }).populate('goal');
+    const tasks = await Task.find({ user: user._id, date, title: query, done: true }, null, {
+      skip: parseInt(page) * pageSize,
+      limit: pageSize,
+    }).populate('goal');
     res.status(200).json(tasks);
   } else {
-    const tasks = await Task.find({ user: user._id, date }).populate('goal');
+    const tasks = await Task.find({ user: user._id, date, title: query }, null, {
+      skip: parseInt(page) * pageSize,
+      limit: pageSize,
+    }).populate('goal');
     res.status(200).json(tasks);
   }
 });
@@ -295,4 +332,5 @@ export {
   updateTask,
   getTasksCount,
   getTasksCountPerGoal,
+  getTasksCountPerDay,
 };

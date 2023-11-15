@@ -10,6 +10,7 @@ import {
   getTaskById,
   getTasks,
   getTasksCount,
+  getTasksCountPerDay,
   getTasksCountPerGoal,
   getTasksbyDate,
   updateTask,
@@ -27,4 +28,5 @@ router.route('/tasksbydate/:date').get(getTasksbyDate);
 router.route('/goalpercentage/:goalId').get(getCompletedTasksPercentagePerGoal);
 router.route(`/tasksbygoal/:goalId`).get(getTaskByGoal);
 router.route(`/countpergoal/:goalId`).get(getTasksCountPerGoal);
+router.route(`/countperday/:date`).get(getTasksCountPerDay);
 export default router;

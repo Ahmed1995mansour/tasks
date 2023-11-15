@@ -9,8 +9,9 @@ import './filter-bar.styles.css';
 type props = {
   selectDateFilter: Function;
   onSelectOption: Function;
+  onChangeHandler: any;
 };
-const FilterBar: React.FC<props> = ({ selectDateFilter, onSelectOption }) => {
+const FilterBar: React.FC<props> = ({ selectDateFilter, onSelectOption, onChangeHandler }) => {
   const date = new Date();
   const [selected, setSelected] = useState<Date>(date);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -48,7 +49,14 @@ const FilterBar: React.FC<props> = ({ selectDateFilter, onSelectOption }) => {
       <div className="date-picker">
         <DatePiker handleSelectDate={onSelectDate} />
       </div>
-
+      <div className="search-bar">
+        <input
+          className="search"
+          onChange={onChangeHandler}
+          type="search"
+          placeholder="Search..."
+        />
+      </div>
       <div className="select">
         <Select
           defaultValue={selectedOption}

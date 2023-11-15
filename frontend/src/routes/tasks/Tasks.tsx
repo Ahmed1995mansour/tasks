@@ -15,11 +15,11 @@ const Tasks = () => {
   const authHeader = useAuthHeader();
   const [search, setSearch] = useState('');
   const [tasks, setTasks] = useState([]);
-  const debouncedSearch = useDebounce(search, 100);
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(12);
   const [completed, setCompleted] = useState(0);
+  const debouncedSearch = useDebounce(search, 100);
 
   const config = {
     headers: {
