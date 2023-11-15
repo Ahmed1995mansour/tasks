@@ -2,11 +2,7 @@ import moment from 'moment';
 import { useState } from 'react';
 import { useAuthHeader } from 'react-auth-kit';
 import { useQuery } from 'react-query';
-import {
-  getAllTasksPercentage,
-  getAllTasksPercentageByDate,
-  getTasksByDate,
-} from '../../apis/apis';
+import { getAllTasksPercentageByDate, getTasksByDate } from '../../apis/apis';
 import AddModal from '../../components/add-modal/AddModal';
 import FilterBar from '../../components/filter-bar/FilterBar.component';
 import ProgressBar from '../../components/progress-bar/ProgressBar.component';

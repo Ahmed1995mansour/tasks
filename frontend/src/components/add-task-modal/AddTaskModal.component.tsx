@@ -8,7 +8,6 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import Select from 'react-select';
 import { toast } from 'react-toastify';
 import { addTask, getGoals } from '../../apis/apis';
-import AddButtonV2 from '../add-button-v2/AddButtonV2';
 import DatePiker from '../date-picker/DatePiker.component';
 import './add-task-modal.styles.css';
 
@@ -34,6 +33,7 @@ const AddTaskModal: React.FC<Props> = ({
   const [taskTitle, setTaskTitle] = useState('');
   const [goals, setGoals] = useState();
   const [goal, setGoal] = useState<GoalStateT>(defaultGoal);
+  const [link, setLink] = useState('');
   const [date, setDate] = useState<Date>(new Date(moment().format('L')));
   const handleClose = () => handleCloseTaskModal();
   const handleShow = () => setShow(true);
@@ -77,6 +77,7 @@ const AddTaskModal: React.FC<Props> = ({
       title: taskTitle,
       goal: goal?.value,
       date: date,
+      link: link,
     };
 
     mutation.mutate({
@@ -114,13 +115,24 @@ const AddTaskModal: React.FC<Props> = ({
               />
             </Form.Group>
 
-            <Form.Group>
+            <Form.Group className="mb-3">
               <div className="select-goal" id="select-goal">
                 <Select
                   defaultValue={goal}
                   onChange={onSelectGoalChange}
                   options={goals}
                   placeholder="Select a goal"
+                />
+              </div>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <div className="task-add-link" id="task-add-link">
+                <Form.Control
+                  className="input-task-link"
+                  type="text"
+                  value={link}
+                  onChange={(e: any) => setLink(e.target.value)}
+                  placeholder="URL"
                 />
               </div>
             </Form.Group>

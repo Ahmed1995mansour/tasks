@@ -19,6 +19,7 @@ type TaskT = {
   title: string;
   date: '';
   goal: GoalT;
+  link: string;
 };
 
 const initialTaskData: TaskT = {
@@ -29,6 +30,7 @@ const initialTaskData: TaskT = {
     _id: '',
     title: '',
   },
+  link: '',
 };
 
 const TaskPage = () => {
@@ -127,6 +129,11 @@ const TaskPage = () => {
                     <li>Sub task 3</li>
                   </ul>
                 </div>
+              </div>
+              <div className="task-resources">
+                <a href={`${taskData.link}`} target="_blank">
+                  {taskData.link}
+                </a>
               </div>
               <div className="card-text">
                 <small className="text-muted">{taskDate}</small>

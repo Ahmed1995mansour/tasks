@@ -20,6 +20,10 @@ const taskSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    link: {
+      type: String,
+      required: false,
+    },
     done: {
       type: Boolean,
     },

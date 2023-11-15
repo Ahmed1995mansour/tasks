@@ -6,7 +6,7 @@ import Task from '../models/taskModel';
 // @acess  Public
 
 const addTask = asyncHandler(async (req, res) => {
-  const { title, goal, date } = req.body;
+  const { title, goal, date, link } = req.body;
   const { user } = req;
   const convertedDate = new Date(date);
 
@@ -19,6 +19,7 @@ const addTask = asyncHandler(async (req, res) => {
       title,
       date: convertedDate,
       done: false,
+      link: link,
     });
     const addedTask = await task.save();
     res.status(201).send(addedTask);

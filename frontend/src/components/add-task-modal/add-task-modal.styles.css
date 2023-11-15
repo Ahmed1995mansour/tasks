@@ -6,10 +6,7 @@
     margin: 0 auto;
 }
 
-.input-task-title {
+.input-task-title, .input-task-link {
     text-align: center;
 }
 
-.select-goal, .select-category {
-    margin-bottom: 20px;
-}
